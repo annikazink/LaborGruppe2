@@ -1,0 +1,8 @@
+Entwicklung einer grafischen Benutzeroberfläche (GUI), um die Daten der Kompressoren anzuzeigen und zu verwalten.
+
+Anforderungen:
+-Entwurf einer benutzerfreundlichen Oberfläche
+-Implementierung der GUI in Python
+-Anbindung der GUI an die Datenbank über die SChnittstellenfunktion des 1. Moduls
+-Aufbereitung von historischen Wochendaten, Tagesverbräuche und Darstellen auf der GUI
+-Automatisiertes Testen der Aufbereitungsfunktion; Manuelles Testen der GUI
