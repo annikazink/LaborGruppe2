@@ -1,9 +1,5 @@
 from api import *
 
-comp_url = "http://141.41.235.28/JSON_Kompressor_IPT/Kompressor_Json.php"
-response = requests.get(comp_url)
-data = response.json()
-
 def test_api_request_successful():
     assert response.status_code == 200
 
@@ -26,5 +22,19 @@ def test_get_relevant_data():
         # Überprüfe, ob alle erwarteten Schlüssel in jedem Dictionary vorhanden sind
         for entry in data_list:
             assert all(key in entry for key in relevant_keys[category])
+
+def test_turn_data_into_list(): #turn data into list for database
+    pass
+
+def test_connect_to_database():
+    pass
+
+def test_insert_data_into_database():
+    pass
+
+def test_close_database_connection():
+    pass
+
+
 
 
