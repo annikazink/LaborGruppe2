@@ -1,5 +1,14 @@
 # ReadME LaborGruppe2
 
+## User-Stories (Programmanforderungen)
+Als Nutzer möchte ich, …<br>
+- eine Bereichsauswahl in der GUI haben, um die angeschlossenen Geräte und deren Sensoren einzusehen.
+- den Energieverbrauch der letzten sieben Tage und der letzten 24 Stunden direkt auf der GUI angezeigt bekommen.
+- dass die Minimal-, Maximal- und Durchschnittstemperaturen der letzten sieben Tage und der letzten 24 Stunden sichtbar sind.
+- die aktuellen Messwerte auf der GUI einsehen können
+- den Verlauf der Temperatur und des Systemdrucks der letzten 24 Stunden in Form eines Diagramms darstellen lassen.
+- auch historische Daten einsehen können. Die Daten sollen zyklisch aufbereitet und gespeichert werden.
+
 ## Modul 1 Datenbank
 Anforderungen: <br>
 Entwurf und Implementierung einer relationalen Datenbank zur Speicherung von Daten von zwei Kompressoren in
