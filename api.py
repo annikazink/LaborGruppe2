@@ -19,18 +19,26 @@ def get_relevant_data(api_response, relevant_keys):
             for entry in api_response[category]:
                 relevant_entry = {}
                 for key in keys:
-                    value = entry.get(key)
-                    if value is not None:
-                        try:
-                            relevant_entry[key] = float(value)
-                        except ValueError:
-                            pass
-                    else:
-                        relevant_entry[key] = None
+                    relevant_entry[key] = entry.get(key)
 
                 relevant_data[category].append(relevant_entry)
 
     return relevant_data
+
+def convert_strings_to_float(data):
+    for category, entries in data.items():
+        for entry in entries:
+            for key, value in entry.items():
+                if isinstance(value, str):
+                    try:
+                        entry[key] = float(value)
+                    except ValueError:
+                        pass
+
+
+relevant_data = get_relevant_data(data, relevant_keys)
+print(relevant_data)
+convert_strings_to_float(relevant_data)
 
 def turn_data_into_list(relevant_data):
     data_list = []
@@ -63,3 +71,9 @@ def insert_data_into_database():
 def close_database_connection():
     pass
 
+
+for category, entries in relevant_data.items():
+    for entry in entries:
+        id_value = entry.get('ID')
+        id_type = type(id_value)
+        print(f"Data type of ID value in {category}: {id_type}")

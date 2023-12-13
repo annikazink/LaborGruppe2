@@ -23,6 +23,25 @@ def test_get_relevant_data():
         for entry in data_list:
             assert all(key in entry for key in relevant_keys[category])
 
+def test_convert_strings_to_float():
+    # Testfall 1: Float-Wert wird korrekt konvertiert
+    data = {"category": [{"key": "ID", "value": "42.0"}]}
+    convert_strings_to_float(data)
+    assert data == {"category": [{"key": "ID", "value": 42.0}]}
+
+    # Testfall 2: Nicht konvertierbarer String bleibt unverändert
+    data = {"category": [{"key": "ID", "value": "abc"}]}
+    convert_strings_to_float(data)
+    assert data == {"category": [{"key": "ID", "value": "abc"}]}
+
+    # Testfall 3: Keine Konvertierung für Nicht-String-Werte
+    data = {"category": [{"key": "ID", "value": 42.0}]}
+    convert_strings_to_float(data)
+    assert data == {"category": [{"key": "ID", "value": 42.0}]}
+
+def test_turn_data_into_list(): #turn data into list for database
+    pass
+
 def test_extract_values_into_flat_list():
     relevant_data = {
         'Kompressor_IPT': [{'ID': '12252969', 'Zeitstempel': '2023-12-13 15:32:08.056', 'Strom_gesamt': '0.029967365722287524'}],
