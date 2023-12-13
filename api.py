@@ -6,8 +6,11 @@ response = requests.get(comp_url)
 data = response.json()
 
 relevant_keys = {
-    "Kompressor_IPT": ["ID", "Zeitstempel", "Strom_gesamt"],
-    "Kompressor_IPT_Entlueftung": ["ID", "Zeitstempel", "Strom_gesamt"],
+    "Kompressor_IPT": ["ID", "Zeitstempel_Unix_ms", "Strom_gesamt", "Spannung_gesamt", "Energie_gesamt_kwh"],
+    "Kompressor_IPT_Entlueftung": ["ID", "Zeitstempel_Unix_ms", "Strom_gesamt", "Spannung_gesamt", "Energie_gesamt_kwh"],
+    "Kompressor_IPT_Kuehler": ["ID", "Zeitstempel_Unix_ms", "Strom_gesamt", "Spannung_gesamt", "Energie_gesamt_kwh"],
+    "Kompressor_IPT_Sensoren": ["ID", "Zeitstempel_Unix_ms", "Druck", "Durchfluss", "Temperatur1", "Temperatur2"],
+    "Kompressor_Ostfalia": ["ID", "Zeitstempel_Unix_ms", "Strom_gesamt", "Spannung_gesamt", "Energie_gesamt_kwh"],
 }
 def get_relevant_data(api_response, relevant_keys):
     relevant_data = {}
