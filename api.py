@@ -18,7 +18,14 @@ def get_relevant_data(api_response, relevant_keys):
             for entry in api_response[category]:
                 relevant_entry = {}
                 for key in keys:
-                    relevant_entry[key] = entry.get(key)
+                    value = entry.get(key)
+                    if value is not None:
+                        try:
+                            relevant_entry[key] = float(value)
+                        except ValueError:
+                            pass
+                    else:
+                        relevant_entry[key] = None
 
                 relevant_data[category].append(relevant_entry)
 
