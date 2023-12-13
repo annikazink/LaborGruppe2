@@ -36,34 +36,20 @@ def convert_strings_to_float(data):
                         pass
 
 
-relevant_data = get_relevant_data(data, relevant_keys)
-print(relevant_data)
-convert_strings_to_float(relevant_data)
 
-def turn_data_into_list(relevant_data):
-    data_list = []
-    for category, data in relevant_data.items():
-        for entry in data:
-            data_list.append(entry)
-    return data_list
-
-def extract_values_into_flat_list(relevant_data):
-    """
-    Extrahiert die Werte aus dem Dictionary der relevanten Daten und speichert sie in einer flachen Liste.
-
-    :param relevant_data: Ein Dictionary mit relevanten Daten für verschiedene Kategorien.
-    :return: Eine flache Liste von Werten.
-    """
-    flat_list = []
-
-    for data in relevant_data.values():
-        for entry in data:
-            flat_list.extend(entry.values())
-
-    return flat_list
 
 def connect_to_database():
-    connection = pymysql.connect(host='localhost',user='kompressor',password='tsN*r10eLxH-gCgy',database='kompressor')
+    try:
+        connection = pymysql.connect(host='127.0.0.1',
+                                 user='kompressor',
+                                 password='InfoLabor_Gr2',
+                                 database='kompressor',
+                                 charset='utf8mb4',
+                                 cursorclass=pymysql.cursors.DictCursor)
+        return connection
+    except pymysql.Error as e:
+        print(f"Error connecting to the database: {e}")
+        return None
 
 def insert_data_into_database():
     pass
@@ -72,8 +58,36 @@ def close_database_connection():
     pass
 
 
-for category, entries in relevant_data.items():
-    for entry in entries:
-        id_value = entry.get('ID')
-        id_type = type(id_value)
-        print(f"Data type of ID value in {category}: {id_type}")
+def insert_test_data():
+    connection = connect_to_database()
+
+
+    try:
+        with connection.cursor() as cursor:
+            # Beispiel-Datensatz zum Einfügen
+            test_data = {
+                "ID": 123,
+                "Zeitstempel": "2023-12-14 12:00:00",
+                "Strom_gesamt": 10.5
+                # Füge hier weitere Felder und Werte hinzu
+            }
+
+            # SQL-Anweisung zum Einfügen der Daten
+            sql = "INSERT INTO gerät (bereich, zeitstempel, energie) VALUES (%s, %s, %s)"
+
+            # Führe die SQL-Anweisung mit den Testdaten aus
+            cursor.execute(sql, (test_data["ID"], test_data["Zeitstempel"], test_data["Strom_gesamt"]))
+
+        # Commit, um die Änderungen in der Datenbank zu speichern
+        connection.commit()
+    except pymysql.Error as e:
+        print(f"Error inserting data into the database: {e}")
+    finally:
+        # Schließe die Verbindung
+        connection.close()
+
+
+if __name__ == '__main__':
+    # Füge Testdaten zur Datenbank hinzu
+    insert_test_data()
+
