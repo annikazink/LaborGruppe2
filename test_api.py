@@ -23,24 +23,6 @@ def test_get_relevant_data():
         for entry in data_list:
             assert all(key in entry for key in relevant_keys[category])
 
-def test_convert_strings_to_float():
-    # Testfall 1: Float-Wert wird korrekt konvertiert
-    data = {"category": [{"key": "ID", "value": "42.0"}]}
-    convert_strings_to_float(data)
-    assert data == {"category": [{"key": "ID", "value": 42.0}]}
-
-    # Testfall 2: Nicht konvertierbarer String bleibt unverändert
-    data = {"category": [{"key": "ID", "value": "abc"}]}
-    convert_strings_to_float(data)
-    assert data == {"category": [{"key": "ID", "value": "abc"}]}
-
-    # Testfall 3: Keine Konvertierung für Nicht-String-Werte
-    data = {"category": [{"key": "ID", "value": 42.0}]}
-    convert_strings_to_float(data)
-    assert data == {"category": [{"key": "ID", "value": 42.0}]}
-
-
-
 def test_connect_to_database():
     # Call the function to connect to the database
     connection = connect_to_database()
@@ -52,11 +34,27 @@ def test_connect_to_database():
     assert isinstance(connection, pymysql.connections.Connection)
 
 def test_insert_data_into_database():
-    pass
+    # Füge Testdaten zur Datenbank hinzu
+    insert_test_data()
 
-def test_close_database_connection():
-    pass
+    # Verbinde erneut zur Datenbank, um die eingefügten Daten abzufragen
+    connection = connect_to_database()
 
+    if connection:
+        try:
+            with connection.cursor() as cursor:
+                # SQL-Anweisung zum Abfragen des eingefügten Datensatzes
+                sql = "SELECT * FROM gerät WHERE gerät_id = %s"
 
+                # Führe die SQL-Anweisung aus
+                cursor.execute(sql, 0)
 
+                # Überprüfe, ob der Datensatz vorhanden ist
+                result = cursor.fetchone()
+                assert result is not None
+
+        finally:
+            delete_test_data()
+            # Schließe die Verbindung
+            connection.close()
 

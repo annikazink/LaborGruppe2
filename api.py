@@ -6,12 +6,12 @@ response = requests.get(comp_url)
 data = response.json()
 
 relevant_keys = {
-    "Kompressor_IPT": ["ID", "Zeitstempel_Unix_ms", "Strom_gesamt", "Spannung_gesamt", "Energie_gesamt_kwh"],
-    "Kompressor_IPT_Entlueftung": ["ID", "Zeitstempel_Unix_ms", "Strom_gesamt", "Spannung_gesamt", "Energie_gesamt_kwh"],
-    "Kompressor_IPT_Kuehler": ["ID", "Zeitstempel_Unix_ms", "Strom_gesamt", "Spannung_gesamt", "Energie_gesamt_kwh"],
-    "Kompressor_IPT_Sensoren": ["ID", "Zeitstempel_Unix_ms", "Druck", "Durchfluss", "Temperatur1", "Temperatur2"],
-    "Kompressor_Ostfalia": ["ID", "Zeitstempel_Unix_ms", "Strom_gesamt", "Spannung_gesamt", "Energie_gesamt_kwh"],
-}
+    "Kompressor_IPT": ["ID", "Zeitstempel", "Energie_gesamt_kwh"], #GeräteID 1
+    "Kompressor_IPT_Entlueftung": ["ID", "Zeitstempel", "Energie_gesamt_kwh"],  #GeräteID 2
+    "Kompressor_IPT_Kuehler": ["ID", "Zeitstempel", "Energie_gesamt_kwh"],  #GeräteID 3
+    "Kompressor_IPT_Sensoren": ["ID", "Zeitstempel", "Druck", "Durchfluss", "Temperatur1"], #SensorID 1
+    "Kompressor_Ostfalia": ["ID", "Zeitstempel", "Energie_gesamt_kwh"],  #GeräteID 4
+} #Geräte ID 0 ist für das Testing
 def get_relevant_data(api_response, relevant_keys):
     relevant_data = {}
 
@@ -28,19 +28,6 @@ def get_relevant_data(api_response, relevant_keys):
 
     return relevant_data
 
-def convert_strings_to_float(data):
-    for category, entries in data.items():
-        for entry in entries:
-            for key, value in entry.items():
-                if isinstance(value, str):
-                    try:
-                        entry[key] = float(value)
-                    except ValueError:
-                        pass
-
-
-
-
 def connect_to_database():
     try:
         connection = pymysql.connect(host='127.0.0.1',
@@ -54,43 +41,113 @@ def connect_to_database():
         print(f"Error connecting to the database: {e}")
         return None
 
-def insert_data_into_database():
-    pass
-
-def close_database_connection():
-    pass
-
-
 def insert_test_data():
     connection = connect_to_database()
-
-
     try:
         with connection.cursor() as cursor:
             # Beispiel-Datensatz zum Einfügen
             test_data = {
-                "ID": 123,
-                "Zeitstempel": "2023-12-14 12:00:00",
-                "Strom_gesamt": 10.5
-                # Füge hier weitere Felder und Werte hinzu
+                "ID_Geraet": 0,
+                "Bereich": "Test",
+                "Zeitstempel": "2023-01-01 12:00:00",
+                "Energie": 1000,
+                "Sensor": 0,
             }
 
             # SQL-Anweisung zum Einfügen der Daten
-            sql = "INSERT INTO gerät (bereich, zeitstempel, energie) VALUES (%s, %s, %s)"
+            sql = "INSERT INTO gerät (gerät_id, bereich, zeitstempel, energie, sensor_id) VALUES (%s, %s, %s, %s, %s)"
 
-            # Führe die SQL-Anweisung mit den Testdaten aus
-            cursor.execute(sql, (test_data["ID"], test_data["Zeitstempel"], test_data["Strom_gesamt"]))
+            cursor.execute(sql, (test_data["ID_Geraet"], test_data["Bereich"], test_data["Zeitstempel"], test_data["Energie"], test_data["Sensor"]))
 
-        # Commit, um die Änderungen in der Datenbank zu speichern
         connection.commit()
     except pymysql.Error as e:
         print(f"Error inserting data into the database: {e}")
     finally:
         # Schließe die Verbindung
         connection.close()
+def delete_test_data():
+    connection = connect_to_database()
+
+    if connection:
+        try:
+            with connection.cursor() as cursor:
+                # SQL-Anweisung zum Löschen des Testdatensatzes
+                sql = "DELETE FROM gerät WHERE gerät_id = %s"
+
+                # Führe die SQL-Anweisung aus
+                cursor.execute(sql, 0)
+
+            # Commit, um die Änderungen in der Datenbank zu speichern
+            connection.commit()
+
+        except pymysql.Error as e:
+            print(f"Error deleting data from the database: {e}")
+        finally:
+            # Schließe die Verbindung
+            connection.close()
+
+def insert_data(relevant_data):
+    connection = connect_to_database()
+
+    if connection:
+        try:
+            with connection.cursor() as cursor:
+                for category, entries in relevant_data.items():
+                    for entry in entries:
+                        # Überprüfe, ob es sich um Sensoren handelt
+                        if category == "Kompressor_IPT_Sensoren":
+                            # SQL-Anweisung zum Einfügen der Sensordaten
+                            sql = "INSERT INTO sensor (data_id, zeitstempel, druck, durchfluss, temperatur, sensor_id) VALUES (%s, %s, %s, %s, %s, %s)"
+
+                            # Führe die SQL-Anweisung mit den Sensordaten aus
+                            cursor.execute(sql, (
+                                entry["ID"],
+                                entry["Zeitstempel"],
+                                entry["Druck"],
+                                entry["Durchfluss"],
+                                entry["Temperatur1"],
+                                1 # nur ein Sensor
+                            ))
+                        else:
+
+                            # Für alle anderen Kategorien (Geräte)
+                            # SQL-Anweisung zum Einfügen der Gerätedaten
+                            sql = "INSERT INTO gerät (data_id, bereich, zeitstempel, energie, sensor_id, gerät_id) VALUES (%s, %s, %s, %s, %s, %s)"
+
+                            # Führe die SQL-Anweisung mit den Gerätedaten aus
+                            cursor.execute(sql, (
+                                entry["ID"],
+                                category,
+                                entry["Zeitstempel"],
+                                entry["Energie_gesamt_kwh"],
+                                1,  # Annahme: Momentan gibt es nur einen Sensor
+                                get_geraete_id(category)
+                            ))
+
+            # Commit, um die Änderungen in der Datenbank zu speichern
+            connection.commit()
+
+        except pymysql.Error as e:
+            print(f"Error inserting data into the database: {e}")
+        finally:
+            # Schließe die Verbindung
+            connection.close()
+
+def get_geraete_id(category):
+    if category == "Kompressor_IPT":
+        return 1
+    elif category == "Kompressor_IPT_Entlueftung":
+        return 2
+    elif category == "Kompressor_IPT_Kuehler":
+        return 3
+    elif category == "Kompressor_Ostfalia":
+        return 4
+    else:
+        return None
 
 
 if __name__ == '__main__':
-    # Füge Testdaten zur Datenbank hinzu
-    insert_test_data()
+    relevant_data = get_relevant_data(data, relevant_keys)
+    # Füge die relevanten Daten in die Datenbank ein
+    insert_data(relevant_data)
 
