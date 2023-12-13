@@ -1,4 +1,5 @@
 import requests
+import pymysql
 
 comp_url = "http://141.41.235.28/JSON_Kompressor_IPT/Kompressor_Json.php"
 response = requests.get(comp_url)
@@ -24,5 +25,34 @@ def get_relevant_data(api_response, relevant_keys):
 
     return relevant_data
 
-relevant_data = get_relevant_data(data, relevant_keys)
-print(relevant_data)
+def turn_data_into_list(relevant_data):
+    data_list = []
+    for category, data in relevant_data.items():
+        for entry in data:
+            data_list.append(entry)
+    return data_list
+
+def extract_values_into_flat_list(relevant_data):
+    """
+    Extrahiert die Werte aus dem Dictionary der relevanten Daten und speichert sie in einer flachen Liste.
+
+    :param relevant_data: Ein Dictionary mit relevanten Daten für verschiedene Kategorien.
+    :return: Eine flache Liste von Werten.
+    """
+    flat_list = []
+
+    for data in relevant_data.values():
+        for entry in data:
+            flat_list.extend(entry.values())
+
+    return flat_list
+
+def connect_to_database():
+    connection = pymysql.connect(host='localhost',user='kompressor',password='tsN*r10eLxH-gCgy',database='kompressor')
+
+def insert_data_into_database():
+    pass
+
+def close_database_connection():
+    pass
+

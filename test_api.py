@@ -23,11 +23,30 @@ def test_get_relevant_data():
         for entry in data_list:
             assert all(key in entry for key in relevant_keys[category])
 
-def test_turn_data_into_list(): #turn data into list for database
-    pass
+def test_extract_values_into_flat_list():
+    relevant_data = {
+        'Kompressor_IPT': [{'ID': '12252969', 'Zeitstempel': '2023-12-13 15:32:08.056', 'Strom_gesamt': '0.029967365722287524'}],
+        'Kompressor_IPT_Entlueftung': [{'ID': '12250918', 'Zeitstempel': '2023-12-13 15:32:08.036', 'Strom_gesamt': '0.013315'}]
+    }
+
+    result = extract_values_into_flat_list(relevant_data)
+
+    # Überprüfe, ob das Ergebnis eine Liste ist
+    assert isinstance(result, list)
+
+    # Überprüfe, ob die Werte korrekt extrahiert wurden
+    assert result == ['12252969', '2023-12-13 15:32:08.056', '0.029967365722287524', '12250918', '2023-12-13 15:32:08.036', '0.013315']
+
 
 def test_connect_to_database():
-    pass
+    # Call the function to connect to the database
+    connection = connect_to_database()
+
+    # Assert that the connection is not None
+    assert connection is not None
+
+    # Assert that the connection is of the correct type
+    assert isinstance(connection, pymysql.connections.Connection)
 
 def test_insert_data_into_database():
     pass
