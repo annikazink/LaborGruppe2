@@ -20,7 +20,7 @@ zwei unterschiedlichen Bereichen.
 - Erweiterbarkeit für weitere Geräte einplanen
 
 ER-Modell der verwendeten Datenbank:
-![image](https://github.com/annikazink/LaborGruppe2/assets/146918028/c04873bc-5062-4ddf-9070-d67f38121655)
+[![image](https://github.com/annikazink/LaborGruppe2/assets/146918028/c04873bc-5062-4ddf-9070-d67f38121655)](https://github.com/annikazink/LaborGruppe2/blob/main/Datenbank%20ER-ModellV2.pdf)
 
 ## Modul 2 GUI
 Anforderungen:<br>
