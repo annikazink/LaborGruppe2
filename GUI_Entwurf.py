@@ -1,151 +1,379 @@
-import matplotlib.pyplot as plt
-import random
+import tkinter as tk
+from tkinter import ttk
 
 
 class MainApp(tk.Tk):
+    """
+    Hauptanwendung für die GUI.
+    Diese Klasse erstellt das Hauptfenster der Anwendung mit verschiedenen Seiten
+    und Funktionen zur Anzeige
+    von Kompressordaten und anderen Informationen.
+    """
+
     def __init__(self):
+        """
+        Initialisiert das Hauptfenster der Anwendung.
+        """
         super().__init__()
 
-        self.attributes('-fullscreen', True)  # Starte im Vollbildmodus
-        self.attributes("-fullscreen", True)  # Starte im Vollbildmodus
-
         self.notebook = ttk.Notebook(self)
-        self.notebook.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-@@ -19,7 +20,9 @@ def __init__(self):
+        self.notebook.pack(padx=10, pady=10)
+
+        self.menu_frames = {}
+        self.current_menu_frame = None  # Aktuell geöffnetes Menü
+        self.temperature_submenu = None  # Referenz auf das Untermenü "Temperatur"
+        self.temperature_submenu_7days = None  # Referenz auf das Untermenü "7 Tage"
+
+        self.create_kompressor_ipt_page()
+        self.create_kompressor_ostfalia_page()
+
+    def create_kompressor_ipt_page(self):
+        """
+        Erstellt die Seite für Kompressor IPT im Haupt-Notebook.
+        """
+        kompressor_ipt_frame = tk.Frame(self.notebook)
+        self.notebook.add(kompressor_ipt_frame, text="Kompressor IPT")
+
+        tk.Button(
+            kompressor_ipt_frame,
+            text="Kompressor",
+            command=self.show_kompressor_ipt_kompressor,
+        ).pack(pady=5, padx=10, side=tk.LEFT)
+        tk.Button(
+            kompressor_ipt_frame,
+            text="Entluefter",
+            command=self.show_kompressor_ipt_entluefter,
+        ).pack(pady=5, padx=10, side=tk.LEFT)
+        tk.Button(
+            kompressor_ipt_frame,
+            text="Kuehler",
+            command=self.show_kompressor_ipt_kuehler,
+        ).pack(pady=5, padx=10, side=tk.LEFT)
+        tk.Button(
+            kompressor_ipt_frame, text="Gesamt", command=self.show_kompressor_ipt_gesamt
+        ).pack(pady=5, padx=10, side=tk.LEFT)
+        tk.Button(
+            kompressor_ipt_frame,
+            text="Historische Daten",
+            command=self.show_kompressor_ipt_historische_daten,
+        ).pack(pady=5, padx=10, side=tk.LEFT)
+
+    def create_kompressor_ostfalia_page(self):
+        """
+        Erstellt die Seite für Kompressor Ostfalia im Haupt-Notebook.
+        """
+        kompressor_ostfalia_frame = tk.Frame(self.notebook)
         self.notebook.add(kompressor_ostfalia_frame, text="Kompressor Ostfalia")
 
-        # Füge den Schließen-Button hinzu
-        close_button = tk.Button(self, text="X", command=self.quit, font=("Arial", 12), width=2, height=1)
-        close_button = tk.Button(
-            self, text="X", command=self.quit, font=("Arial", 12), width=2, height=1
-        )
-        close_button.place(relx=1, rely=0, anchor=tk.NE)
-
-        self.create_kompressor_ipt_buttons(kompressor_ipt_frame)
-@@ -32,9 +35,15 @@ def __init__(self):
-        # Labels für die Sensorwerte
-        self.sensor_labels = {
-            "Druck": tk.Label(self.sensor_status_frame, text="", font=("Arial", 12)),
-            "Durchfluss": tk.Label(self.sensor_status_frame, text="", font=("Arial", 12)),
-            "Temperatur 1": tk.Label(self.sensor_status_frame, text="", font=("Arial", 12)),
-            "Temperatur 2": tk.Label(self.sensor_status_frame, text="", font=("Arial", 12))
-            "Durchfluss": tk.Label(
-                self.sensor_status_frame, text="", font=("Arial", 12)
-            ),
-            "Temperatur 1": tk.Label(
-                self.sensor_status_frame, text="", font=("Arial", 12)
-            ),
-            "Temperatur 2": tk.Label(
-                self.sensor_status_frame, text="", font=("Arial", 12)
-            ),
-        }
-
-        # Platzierung der Sensorlabels
-@@ -49,21 +58,21 @@ def show_sensor_status():
-                "Druck": "100 PSI",
-                "Durchfluss": "50 L/min",
-                "Temperatur 1": "25°C",
-                "Temperatur 2": "30°C"
-                "Temperatur 2": "30°C",
-            }
-
-            # Zeige die Sensordaten in Labels an
-            for key, value in sensor_data.items():
-                self.sensor_labels[key]["text"] = f"{key}: {value}"
-
-        def show_temperature():
-            zeit = range(0,25)
-            zeit = range(0, 25)
-            temperatur = [random.uniform(18, 30) for _ in range(25)]
-            plt.figure(figsize=(10, 6))
-            plt.plot(zeit, temperatur, marker='o', linestyle='-', color='b')
-            plt.title('Temperatur über 24 Stunden')
-            plt.xlabel('Zeit (Stunden)')
-            plt.ylabel('Temperatur (°C)')
-            plt.plot(zeit, temperatur, marker="o", linestyle="-", color="b")
-            plt.title("Temperatur über 24 Stunden")
-            plt.xlabel("Zeit (Stunden)")
-            plt.ylabel("Temperatur (°C)")
-            plt.grid(True)
-            plt.show()
-
-@@ -72,20 +81,69 @@ def reset_sensor_status():
-            for key in self.sensor_labels:
-                self.sensor_labels[key]["text"] = ""
-
-        tk.Button(frame, text="Energieverbrauch", font=("Arial", 12), width=20, height=3, command=reset_sensor_status).grid(row=0, column=0, padx=10, pady=5)
-        tk.Button(frame, text="Temperaturen", font=("Arial", 12), width=20, height=3, command=reset_sensor_status).grid(row=0, column=1, padx=10, pady=5)
-        tk.Button(frame, text="Messwerte", font=("Arial", 12), width=20, height=3, command=reset_sensor_status).grid(row=0, column=2, padx=10, pady=5)
-        tk.Button(frame, text="Systemdruck", font=("Arial", 12), width=20, height=3, command=reset_sensor_status).grid(row=0, column=3, padx=10, pady=5)
-        tk.Button(frame, text="Historische Daten", font=("Arial", 12), width=20, height=3, command=reset_sensor_status).grid(row=0, column=4, padx=10, pady=5)
         tk.Button(
-            frame,
+            kompressor_ostfalia_frame,
             text="Energieverbrauch",
-            font=("Arial", 12),
-            width=20,
-            height=3,
-            command=reset_sensor_status,
-        ).grid(row=0, column=0, padx=10, pady=5)
+            command=self.show_kompressor_ostfalia_energieverbrauch,
+        ).pack(pady=5, padx=10, side=tk.LEFT)
         tk.Button(
-            frame,
-            text="Temperaturen",
-            font=("Arial", 12),
-            width=20,
-            height=3,
-            command=reset_sensor_status,
-        ).grid(row=0, column=1, padx=10, pady=5)
-        tk.Button(
-            frame,
+            kompressor_ostfalia_frame,
             text="Messwerte",
-            font=("Arial", 12),
-            width=20,
-            height=3,
-            command=reset_sensor_status,
-        ).grid(row=0, column=2, padx=10, pady=5)
+            command=self.show_kompressor_ostfalia_messwerte,
+        ).pack(pady=5, padx=10, side=tk.LEFT)
         tk.Button(
-            frame,
-            text="Systemdruck",
-            font=("Arial", 12),
-            width=20,
-            height=3,
-            command=reset_sensor_status,
-        ).grid(row=0, column=3, padx=10, pady=5)
-        tk.Button(
-            frame,
+            kompressor_ostfalia_frame,
             text="Historische Daten",
-            font=("Arial", 12),
-            width=20,
-            height=3,
-            command=reset_sensor_status,
-        ).grid(row=0, column=4, padx=10, pady=5)
+            command=self.show_kompressor_ostfalia_historische_daten,
+        ).pack(pady=5, padx=10, side=tk.LEFT)
 
-        # Button "Status Sensoren" neben den anderen Buttons platzieren
-        tk.Button(frame, text="Status Sensoren", font=("Arial", 12), width=20, height=3, command=show_sensor_status).grid(row=0, column=5, padx=10, pady=5)
-        tk.Button(
-            frame,
-            text="Status Sensoren",
-            font=("Arial", 12),
-            width=20,
-            height=3,
-            command=show_sensor_status,
-        ).grid(row=0, column=5, padx=10, pady=5)
+    def close_current_menu(self):
+        """
+        Schließt das aktuell geöffnete Menü.
+        """
+        if self.current_menu_frame:
+            self.current_menu_frame.destroy()
+            self.current_menu_frame = None
 
-    def create_kompressor_ostfalia_buttons(self, frame):
-        tk.Button(frame, text="Energieverbräuche", font=("Arial", 12), width=20, height=3).grid(row=0, column=0, padx=10, pady=5)
-        tk.Button(frame, text="Messwerte", font=("Arial", 12), width=20, height=3).grid(row=0, column=1, padx=10, pady=5)
-        tk.Button(frame, text="Historische Daten", font=("Arial", 12), width=20, height=3).grid(row=0, column=2, padx=10, pady=5)
-        tk.Button(
-            frame, text="Energieverbräuche", font=("Arial", 12), width=20, height=3
-        ).grid(row=0, column=0, padx=10, pady=5)
-        tk.Button(frame, text="Messwerte", font=("Arial", 12), width=20, height=3).grid(
-            row=0, column=1, padx=10, pady=5
+    def show_kompressor_ipt_kompressor(self):
+        """
+        Zeigt die Daten für den Kompressor IPT.
+        """
+        self.close_current_menu()  # Schließt das aktuell geöffnete Menü
+        kompressordaten_ipt_frame = tk.Frame(self)  # Erstellt einen neuen Frame
+        kompressordaten_ipt_frame.pack(
+            padx=10, pady=10
+        )  # Platziert den Frame im Hauptfenster
+        self.menu_frames[
+            "KompressordatenIPT"
+        ] = kompressordaten_ipt_frame  # Aktualisiert den Frame-Schlüssel im Dictionary
+        self.current_menu_frame = (
+            kompressordaten_ipt_frame  # Aktualisiert das aktuell geöffnete Menü
         )
+
+        # Label, das anzeigt, dass aktuell keine Daten verfügbar sind
         tk.Button(
-            frame, text="Historische Daten", font=("Arial", 12), width=20, height=3
-        ).grid(row=0, column=2, padx=10, pady=5)
+            kompressordaten_ipt_frame,
+            text="Energie",
+            command=self.plot_kompressor_ipt_kompressor_energie,
+        ).pack(pady=5, padx=10, side=tk.LEFT)
+
+        # Button, um zum Hauptmenü zurückzukehren
+        tk.Button(
+            kompressordaten_ipt_frame, text="Zurück", command=self.close_current_menu
+        ).pack(pady=5, padx=10, side=tk.LEFT)
+
+    def show_kompressor_ipt_entluefter(self):
+        """
+        Zeigt die Benutzeroberfläche für den Entlüfter des Kompressors IPT.
+        """
+        self.close_current_menu()  # Schließt das aktuell geöffnete Menü
+        entluefter_ipt_frame = tk.Frame(self)  # Erstellt einen neuen Frame
+        entluefter_ipt_frame.pack(
+            padx=10, pady=10
+        )  # Platziert den Frame im Hauptfenster
+        entluefter_ipt = (
+            entluefter_ipt_frame  # Aktualisiert die Variable auf den neuen Frame
+        )
+        self.current_menu_frame = (
+            entluefter_ipt_frame  # Aktualisiert das aktuell geöffnete Menü
+        )
+
+        # Label, das anzeigt, dass aktuell keine Daten verfügbar sind
+        tk.Button(
+            entluefter_ipt,
+            text="Energie",
+            command=self.plot_kompressor_ipt_entluefter_energie,
+        ).pack(pady=5, padx=10, side=tk.LEFT)
+
+        # Button, um zum Hauptmenü zurückzukehren
+        tk.Button(entluefter_ipt, text="Zurück", command=self.close_current_menu).pack(
+            pady=5, padx=10, side=tk.LEFT
+        )
+
+    def show_kompressor_ipt_kuehler(self):
+        """
+        Zeigt die Benutzeroberfläche für den Kühler des Kompressors IPT.
+        """
+        self.close_current_menu()  # Schließt das aktuell geöffnete Menü
+        kuehler_ipt_frame = tk.Frame(self)  # Erstellt einen neuen Frame
+        kuehler_ipt_frame.pack(padx=10, pady=10)  # Platziert den Frame im Hauptfenster
+        kuehler_ipt = kuehler_ipt_frame  # Aktualisiert die Variable auf den neuen Frame
+        self.current_menu_frame = (
+            kuehler_ipt_frame  # Aktualisiert das aktuell geöffnete Menü
+        )
+
+        # Button, um zum Hauptmenü zurückzukehren
+        tk.Button(
+            kuehler_ipt,
+            text="Energie",
+            command=self.plot_kompressor_ipt_kuehler_energie,
+        ).pack(pady=5, padx=10, side=tk.LEFT)
+
+        # Button, um zum Hauptmenü zurückzukehren
+        tk.Button(kuehler_ipt, text="Zurück", command=self.close_current_menu).pack(
+            pady=5, padx=10, side=tk.LEFT
+        )
+
+    def show_kompressor_ipt_gesamt(self):
+        """
+        Zeigt die Benutzeroberfläche für die Gesamtansicht des Kompressors IPT.
+        """
+        self.close_current_menu()  # Schließt das aktuell geöffnete Menü
+        gesamt_ipt_frame = tk.Frame(self)  # Erstellt einen neuen Frame
+        gesamt_ipt_frame.pack(padx=10, pady=10)  # Platziert den Frame im Hauptfenster
+        gesamt_ipt = gesamt_ipt_frame  # Aktualisiert die Variable auf den neuen Frame
+        self.current_menu_frame = (
+            gesamt_ipt_frame  # Aktualisiert das aktuell geöffnete Menü
+        )
+
+        # Button, um zum Hauptmenü zurückzukehren
+        tk.Button(
+            gesamt_ipt, text="Druck", command=self.plot_kompressor_ipt_gesamt_druck
+        ).pack(pady=5, padx=10, side=tk.LEFT)
+
+        tk.Button(
+            gesamt_ipt,
+            text="Durchfluss",
+            command=self.plot_kompressor_ipt_gesamt_durchfluss,
+        ).pack(pady=5, padx=10, side=tk.LEFT)
+
+        tk.Button(
+            gesamt_ipt,
+            text="Temperatur",
+            command=self.plot_kompressor_ipt_gesamt_temperatur,
+        ).pack(pady=5, padx=10, side=tk.LEFT)
+
+        tk.Button(
+            gesamt_ipt, text="Energie", command=self.plot_kompressor_ipt_gesamt_energie
+        ).pack(pady=5, padx=10, side=tk.LEFT)
+
+        # Button, um zum Hauptmenü zurückzukehren
+        tk.Button(gesamt_ipt, text="Zurück", command=self.close_current_menu).pack(
+            pady=5, padx=10, side=tk.LEFT
+        )
+
+    def show_kompressor_ipt_historische_daten(self):
+        """
+        Zeigt die Benutzeroberfläche für historische Daten des Kompressors IPT.
+        """
+        self.close_current_menu()  # Schließt das aktuell geöffnete Menü
+        historische_daten_ipt_frame = tk.Frame(self)  # Erstellt einen neuen Frame
+        historische_daten_ipt_frame.pack(
+            padx=10, pady=10
+        )  # Platziert den Frame im Hauptfenster
+        historische_daten_ipt = (
+            historische_daten_ipt_frame  # Aktualisiert die Variable auf den neuen Frame
+        )
+        self.current_menu_frame = (
+            historische_daten_ipt_frame  # Aktualisiert das aktuell geöffnete Menü
+        )
+
+        # Label, das anzeigt, dass aktuell keine historischen Daten verfügbar sind
+        tk.Label(
+            historische_daten_ipt, text="Aktuell keine historischen Daten verfügbar."
+        ).pack(pady=5, padx=10)
+
+        # Button, um zum Hauptmenü zurückzukehren
+        tk.Button(
+            historische_daten_ipt, text="Zurück", command=self.close_current_menu
+        ).pack(pady=5, padx=10, side=tk.LEFT)
+
+    def show_kompressor_ostfalia_energieverbrauch(self):
+        """
+        Zeigt die Benutzeroberfläche für den Energieverbrauch des Kompressors Ostfalia.
+        """
+        self.close_current_menu()  # Schließt das aktuell geöffnete Menü
+        energieverbrauch_ostfalia_frame = tk.Frame(self)  # Erstellt einen neuen Frame
+        energieverbrauch_ostfalia_frame.pack(
+            padx=10, pady=10
+        )  # Platziert den Frame im Hauptfenster
+        energieverbrauch_ostfalia = energieverbrauch_ostfalia_frame
+        self.current_menu_frame = (
+            energieverbrauch_ostfalia_frame  # Aktualisiert das aktuell geöffnete Menü
+        )
+
+        # Label, das den Energieverbrauch anzeigt
+        tk.Label(
+            energieverbrauch_ostfalia,
+            text="Energieverbrauch: [Hier Energieverbrauch einfügen]",
+        ).pack(pady=5, padx=10)
+
+        # Button, um zum Hauptmenü zurückzukehren
+        tk.Button(
+            energieverbrauch_ostfalia, text="Zurück", command=self.close_current_menu
+        ).pack(pady=5, padx=10, side=tk.LEFT)
+
+    def show_kompressor_ostfalia_messwerte(self):
+        """
+        Zeigt die Benutzeroberfläche für die Messwerte des Kompressors Ostfalia.
+        """
+
+        self.close_current_menu()  # Schließt das aktuell geöffnete Menü
+        messwerte_ostfalia_frame = tk.Frame(self)  # Erstellt einen neuen Frame
+        messwerte_ostfalia_frame.pack(
+            padx=10, pady=10
+        )  # Platziert den Frame im Hauptfenster
+        messwerte_ostfalia = (
+            messwerte_ostfalia_frame  # Aktualisiert die Variable auf den neuen Frame
+        )
+        self.current_menu_frame = (
+            messwerte_ostfalia_frame  # Aktualisiert das aktuell geöffnete Menü
+        )
+
+        # Label, das die Messwerte anzeigt
+        tk.Label(messwerte_ostfalia, text="Messwerte: [Hier Messwerte einfügen]").pack(
+            pady=5, padx=10
+        )
+
+        # Button, um zum Hauptmenü zurückzukehren
+        tk.Button(
+            messwerte_ostfalia, text="Zurück", command=self.close_current_menu
+        ).pack(pady=5, padx=10, side=tk.LEFT)
+
+    def show_kompressor_ostfalia_historische_daten(self):
+        """
+        Zeigt die Benutzeroberfläche für historische Daten des Kompressors Ostfalia.
+        """
+        self.close_current_menu()  # Schließt das aktuell geöffnete Menü
+        historische_daten_ostfalia_frame = tk.Frame(self)  # Erstellt einen neuen Frame
+        historische_daten_ostfalia_frame.pack(
+            padx=10, pady=10
+        )  # Platziert den Frame im Hauptfenster
+        self.menu_frames[
+            "HistorischeDatenOstfalia"
+        ] = historische_daten_ostfalia_frame  # Aktualisiert den Frame-Schlüssel im Dictionary
+        self.current_menu_frame = (
+            historische_daten_ostfalia_frame  # Aktualisiert das aktuell geöffnete Menü
+        )
+
+        # Hier kannst du deine historischen Daten anzeigen, z.B. in einem Text-Widget
+        historische_daten_label = tk.Label(
+            historische_daten_ostfalia_frame, text="Historische Daten anzeigen:"
+        )
+        historische_daten_label.pack(pady=5, padx=10)
+
+        historische_daten_text = tk.Text(
+            historische_daten_ostfalia_frame, width=40, height=10
+        )
+        historische_daten_text.pack(pady=5, padx=10)
+
+        historische_daten_text.insert(
+            tk.END, "Hier werden die historischen Daten angezeigt."
+        )
+
+        # Button, um zum Hauptmenü zurückzukehren
+        tk.Button(
+            historische_daten_ostfalia_frame,
+            text="Zurück",
+            command=self.close_current_menu,
+        ).pack(pady=5, padx=10, side=tk.LEFT)
+
+    def plot_kompressor_ipt_kompressor_energie(self):
+        """
+        Erstellt und zeigt ein Diagramm für die Energieverbrauchsdaten des Kompressors IPT.
+        """
+
+        pass
+
+    def plot_kompressor_ipt_entluefter_energie(self):
+        """
+        Erstellt und zeigt ein Diagramm für die Energieverbrauchsdaten
+        des Entlüfters des Kompressors IPT.
+        """
+
+        pass
+
+    def plot_kompressor_ipt_kuehler_energie(self):
+        """
+        Erstellt und zeigt ein Diagramm für die Energieverbrauchsdaten
+         des Kühlers des Kompressors IPT.
+        """
+        pass
+
+    def plot_kompressor_ipt_gesamt_druck(self):
+        """
+        Erstellt und zeigt ein Diagramm für die Druckdaten des Gesamtsystems
+         des Kompressors IPT.
+        """
+        pass
+
+    def plot_kompressor_ipt_gesamt_durchfluss(self):
+        """
+        Erstellt und zeigt ein Diagramm für die Durchflussdaten des Gesamtsystems
+         des Kompressors IPT.
+        """
+        pass
+
+    def plot_kompressor_ipt_gesamt_temperatur(self):
+        """
+        Erstellt und zeigt ein Diagramm für die Temperaturdaten des Gesamtsystems
+         des Kompressors IPT.
+        """
+        pass
+
+    def plot_kompressor_ipt_gesamt_energie(self):
+        """
+        Erstellt und zeigt ein Diagramm für die Energieverbrauchsdaten
+         des Gesamtsystems des Kompressors IPT.
+        """
+        pass
 
 
 if __name__ == "__main__":
     app = MainApp()
-    app.mainloop()
     app.mainloop()
