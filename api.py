@@ -30,9 +30,9 @@ def get_relevant_data(api_response, relevant_keys):
 
 def connect_to_database():
     try:
-        connection = pymysql.connect(host='127.0.0.1',
-                                 user='kompressor',
-                                 password='InfoLabor_Gr2',
+        connection = pymysql.connect(host='141.41.42.211',
+                                 user='Kompressor',
+                                 password='Kompressor12345%',
                                  database='kompressor',
                                  charset='utf8mb4',
                                  cursorclass=pymysql.cursors.DictCursor)
@@ -55,7 +55,7 @@ def insert_test_data():
             }
 
             # SQL-Anweisung zum Einfügen der Daten
-            sql = "INSERT INTO gerät (gerät_id, bereich, zeitstempel, energie, sensor_id) VALUES (%s, %s, %s, %s, %s)"
+            sql = "INSERT INTO geraet (gerät_id, bereich, zeitstempel, energie, sensor_id) VALUES (%s, %s, %s, %s, %s)"
 
             cursor.execute(sql, (test_data["ID_Geraet"], test_data["Bereich"], test_data["Zeitstempel"], test_data["Energie"], test_data["Sensor"]))
 
@@ -72,7 +72,7 @@ def delete_test_data():
         try:
             with connection.cursor() as cursor:
                 # SQL-Anweisung zum Löschen des Testdatensatzes
-                sql = "DELETE FROM gerät WHERE gerät_id = %s"
+                sql = "DELETE FROM geraet WHERE gerät_id = %s"
 
                 # Führe die SQL-Anweisung aus
                 cursor.execute(sql, 0)
@@ -97,7 +97,7 @@ def insert_data(relevant_data):
                         # Überprüfe, ob es sich um Sensoren handelt
                         if category == "Kompressor_IPT_Sensoren":
                             # SQL-Anweisung zum Einfügen der Sensordaten
-                            sql = "INSERT INTO sensor (data_id, zeitstempel, druck, durchfluss, temperatur, sensor_id) VALUES (%s, %s, %s, %s, %s, %s)"
+                            sql = "INSERT INTO sensor (datas_id, zeitstempel, druck, durchfluss, temperatur, sensor_id) VALUES (%s, %s, %s, %s, %s, %s)"
 
                             # Führe die SQL-Anweisung mit den Sensordaten aus
                             cursor.execute(sql, (
@@ -108,11 +108,11 @@ def insert_data(relevant_data):
                                 entry["Temperatur1"],
                                 1 # nur ein Sensor
                             ))
-                        else:
+                        elif category == "Kompressor_IPT":
 
                             # Für alle anderen Kategorien (Geräte)
                             # SQL-Anweisung zum Einfügen der Gerätedaten
-                            sql = "INSERT INTO gerät (data_id, bereich, zeitstempel, energie, sensor_id, gerät_id) VALUES (%s, %s, %s, %s, %s, %s)"
+                            sql = "INSERT INTO geraet (datag_id, bereich, zeitstempel, energie, geraet_id, datas_id) VALUES (%s, %s, %s, %s, %s, %s)"
 
                             # Führe die SQL-Anweisung mit den Gerätedaten aus
                             cursor.execute(sql, (
@@ -120,7 +120,18 @@ def insert_data(relevant_data):
                                 category,
                                 entry["Zeitstempel"],
                                 entry["Energie_gesamt_kwh"],
-                                1,  # Annahme: Momentan gibt es nur einen Sensor
+                                get_geraete_id(category),
+                                relevant_data["Kompressor_IPT_Sensoren"][0]["ID"]
+                            ))
+                        else:
+                            sql = "INSERT INTO geraet (datag_id, bereich, zeitstempel, energie, geraet_id) VALUES (%s, %s, %s, %s, %s)"
+
+                            # Führe die SQL-Anweisung mit den Gerätedaten aus
+                            cursor.execute(sql, (
+                                entry["ID"],
+                                category,
+                                entry["Zeitstempel"],
+                                entry["Energie_gesamt_kwh"],
                                 get_geraete_id(category)
                             ))
 
