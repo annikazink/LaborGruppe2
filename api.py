@@ -1,5 +1,7 @@
 import requests
 import pymysql
+import sys
+import traceback
 
 comp_url = "http://141.41.235.28/JSON_Kompressor_IPT/Kompressor_Json.php"
 response = requests.get(comp_url)
@@ -158,7 +160,13 @@ def get_geraete_id(category):
 
 
 if __name__ == '__main__':
-    relevant_data = get_relevant_data(data, relevant_keys)
-    # Füge die relevanten Daten in die Datenbank ein
-    insert_data(relevant_data)
+    try:
+        relevant_data = get_relevant_data(data, relevant_keys)
+        # Füge die relevanten Daten in die Datenbank ein
+        insert_data(relevant_data)
+    except Exception as e:
+        with open('error_log.txt', 'a') as f:
+            f.write(f"Error: {str(e)}\n")
+            f.write(traceback.format_exc())
+        sys.exit(1)
 
