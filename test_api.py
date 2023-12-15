@@ -1,3 +1,22 @@
+"""
+Hinweise
+Eine Kopfzeile gehört überall hin / Es fehlen auch Kommentare
+
+die Tests sehen schon ok aus, nur fehlen halt die Mock-Tests. Auch bauen die Test teilweise auf externen Daten auf
+(response/data). Diese sollen in der Testumgebung definiert werden . Die Tests sollten isoliert voneinander laufen.
+
+Es fehlen Tests, was passiert wenn die API einen Fehlercode zurückgibt
+
+Wenn Sie die Mock Objekte hinzugefügt haben, sind diese Tests auch CI fähig, dh sie müssen
+Attribute mit übertragen, "@pytest.mark.mockable" wenn Sie dann in github action datei pytest so:
+      run: |
+        pytest -m mockable
+ausführen werden nur tests mit diesem Attribute in github actions durchlaufen und die tests sind dann positiv (die direkten Daten-
+bankzugriffe könne sie virtuell ja nicht testen.
+
+"""
+
+
 from api import *
 
 def test_api_request_successful():
