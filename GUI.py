@@ -1,5 +1,8 @@
 # Verbindung zur Datenbank
 # funktioniert noch nicht
+
+import pymysql
+
 def connect_to_database():
     try:
         connection = pymysql.connect(
