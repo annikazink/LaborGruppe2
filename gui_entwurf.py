@@ -348,13 +348,18 @@ class MainApp(tk.Tk):
         plt.xticks(rotation=45)
         plt.show()
 
-    def filter_and_plot_data(self, data_array, device_id, days, x_label='X-Achse',
-                             y_label='Y-Achse', title='Diagramm',
-                             x_key='zeitstempel', y_key='energie'):
+    def filter_and_plot_data(self, data_array, config):
         """
             Kombiniert das Filtern der Daten nach Geräte-ID und Zeitraum
              mit der Erstellung eines Diagramms.
             """
+        device_id = config.get('device_id')
+        days = config.get('days')
+        x_label = config.get('x_label', 'X-Achse')
+        y_label = config.get('y_label', 'Y-Achse')
+        title = config.get('title', 'Diagramm')
+        x_key = config.get('x_key', 'zeitstempel')
+        y_key = config.get('y_key', 'energie')
 
         filtered_data = self.filter_data_by_device_id(data_array, device_id)
         filtered_data = self.filter_data_by_period(filtered_data, days)
@@ -372,20 +377,36 @@ class MainApp(tk.Tk):
         self.menu_frames["KompressordatenIPT"] = kompressordaten_ipt_frame
         self.current_menu_frame = kompressordaten_ipt_frame
 
+        config_7_days = {
+            'device_id': 1,
+            'days': 7,
+            'x_label': 'Zeit',
+            'y_label': 'Energie',
+            'title': 'Energieverlauf letzte 7 Tage',
+            'x_key': 'zeitstempel',
+            'y_key': 'energie'
+        }
+
         tk.Button(
             kompressordaten_ipt_frame,
             text="7 Tage",
-            command=lambda: self.filter_and_plot_data(daten_komplett, 1, 7,
-                                                      x_label="Zeit", y_label="Energie",
-                                                      title="Energieverlauf letzte 7 Tage"),
+            command=lambda: self.filter_and_plot_data(daten_komplett, config_7_days),
         ).pack(pady=5, padx=10, side=tk.LEFT)
+
+        config_24_hours = {
+            'device_id': 1,
+            'days': 1,
+            'x_label': 'Zeit',
+            'y_label': 'Energie',
+            'title': 'Energieverlauf letzte 24 Stunden',
+            'x_key': 'zeitstempel',
+            'y_key': 'energie'
+        }
 
         tk.Button(
             kompressordaten_ipt_frame,
             text="24h",
-            command=lambda: self.filter_and_plot_data(daten_komplett, 1, 1,
-                                                      x_label="Zeit", y_label="Energie",
-                                                      title="Energieverlauf letzte 24 Stunden"),
+            command=lambda: self.filter_and_plot_data(daten_komplett, config_24_hours),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         tk.Button(
@@ -396,29 +417,41 @@ class MainApp(tk.Tk):
         """
         Zeigt die Benutzeroberfläche für den Entlüfter des Kompressors IPT.
         """
-        self.close_current_menu()  # Schließt das aktuell geöffnete Menü
-        entluefter_ipt_frame = tk.Frame(self)  # Erstellt einen neuen Frame
-        entluefter_ipt_frame.pack(
-            padx=10, pady=10
-        )  # Platziert den Frame im Hauptfenster
-        self.current_menu_frame = (
-            entluefter_ipt_frame  # Aktualisiert das aktuell geöffnete Menü
-        )
+        self.close_current_menu()
+        entluefter_ipt_frame = tk.Frame(self)
+        entluefter_ipt_frame.pack(padx=10, pady=10)
+        self.current_menu_frame = entluefter_ipt_frame
 
+        # Konfiguration für 7 Tage
+        config_7_days = {
+            'device_id': 2,
+            'days': 7,
+            'x_label': 'Zeit',
+            'y_label': 'Energie',
+            'title': 'Energieverlauf Entlüfter 7 Tage',
+            'x_key': 'zeitstempel',
+            'y_key': 'energie'
+        }
         tk.Button(
             entluefter_ipt_frame,
             text="7 Tage",
-            command=lambda: self.filter_and_plot_data(daten_komplett, 2, 7,
-                                                      x_label="Zeit", y_label="Energie",
-                                                      title="Energieverlauf Entlüfter 7 Tage"),
+            command=lambda: self.filter_and_plot_data(daten_komplett, config_7_days),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
+        # Konfiguration für 24 Stunden
+        config_24_hours = {
+            'device_id': 2,
+            'days': 1,
+            'x_label': 'Zeit',
+            'y_label': 'Energie',
+            'title': 'Energieverlauf Entlüfter 24 Stunden',
+            'x_key': 'zeitstempel',
+            'y_key': 'energie'
+        }
         tk.Button(
             entluefter_ipt_frame,
             text="24h",
-            command=lambda: self.filter_and_plot_data(daten_komplett, 2, 1,
-                                                      x_label="Zeit", y_label="Energie",
-                                                      title="Energieverlauf Entlüfter 24 Stunden"),
+            command=lambda: self.filter_and_plot_data(daten_komplett, config_24_hours),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         tk.Button(
@@ -429,27 +462,41 @@ class MainApp(tk.Tk):
         """
         Zeigt die Benutzeroberfläche für den Kühler des Kompressors IPT.
         """
-        self.close_current_menu()  # Schließt das aktuell geöffnete Menü
-        kuehler_ipt_frame = tk.Frame(self)  # Erstellt einen neuen Frame
-        kuehler_ipt_frame.pack(padx=10, pady=10)  # Platziert den Frame im Hauptfenster
-        self.current_menu_frame = (
-            kuehler_ipt_frame  # Aktualisiert das aktuell geöffnete Menü
-        )
+        self.close_current_menu()
+        kuehler_ipt_frame = tk.Frame(self)
+        kuehler_ipt_frame.pack(padx=10, pady=10)
+        self.current_menu_frame = kuehler_ipt_frame
 
+        # Konfiguration für 7 Tage
+        config_7_days = {
+            'device_id': 3,
+            'days': 7,
+            'x_label': 'Zeit',
+            'y_label': 'Energie',
+            'title': 'Energieverlauf Kühler letzte 7 Tage',
+            'x_key': 'zeitstempel',
+            'y_key': 'energie'
+        }
         tk.Button(
             kuehler_ipt_frame,
             text="7 Tage",
-            command=lambda: self.filter_and_plot_data(daten_komplett, 3, 7,
-                                                      x_label="Zeit", y_label="Energie",
-                                                      title="Energieverlauf Kühler letzte 7 Tagen"),
+            command=lambda: self.filter_and_plot_data(daten_komplett, config_7_days),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
+        # Konfiguration für 24 Stunden
+        config_24_hours = {
+            'device_id': 3,
+            'days': 1,
+            'x_label': 'Zeit',
+            'y_label': 'Energie',
+            'title': 'Energieverlauf Kühler letzte 24 Stunden',
+            'x_key': 'zeitstempel',
+            'y_key': 'energie'
+        }
         tk.Button(
             kuehler_ipt_frame,
             text="24h",
-            command=lambda: self.filter_and_plot_data(daten_komplett, 3, 1,
-                                                      x_label="Zeit", y_label="Energie",
-                                                      title="Energieverlauf Kühler 24 Stunden"),
+            command=lambda: self.filter_and_plot_data(daten_komplett, config_24_hours),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         tk.Button(
@@ -544,32 +591,43 @@ class MainApp(tk.Tk):
         """
         Zeigt die Benutzeroberfläche für den Energieverbrauch des Kompressors Ostfalia.
         """
-        self.close_current_menu()  # Schließt das aktuell geöffnete Menü
-        energieverbrauch_ostfalia_frame = tk.Frame(self)  # Erstellt einen neuen Frame
-        energieverbrauch_ostfalia_frame.pack(
-            padx=10, pady=10
-        )  # Platziert den Frame im Hauptfenster
-        self.current_menu_frame = (
-            energieverbrauch_ostfalia_frame  # Aktualisiert das aktuell geöffnete Menü
-        )
+        self.close_current_menu()
+        energieverbrauch_ostfalia_frame = tk.Frame(self)
+        energieverbrauch_ostfalia_frame.pack(padx=10, pady=10)
+        self.current_menu_frame = energieverbrauch_ostfalia_frame
 
+        # Konfiguration für 7 Tage
+        config_7_days = {
+            'device_id': 4,
+            'days': 7,
+            'x_label': 'Zeit',
+            'y_label': 'Energie',
+            'title': 'Energieverlauf letzte 7 Tage',
+            'x_key': 'zeitstempel',
+            'y_key': 'energie'
+        }
         tk.Button(
             energieverbrauch_ostfalia_frame,
             text="7 Tage",
-            command=lambda: self.filter_and_plot_data(daten_komplett, 4, 7,
-                                                      x_label="Zeit", y_label="Energie",
-                                                      title="Energieverlauf letzte 7 Tage"),
+            command=lambda: self.filter_and_plot_data(daten_komplett, config_7_days),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
+        # Konfiguration für 24 Stunden
+        config_24_hours = {
+            'device_id': 4,
+            'days': 1,
+            'x_label': 'Zeit',
+            'y_label': 'Energie',
+            'title': 'Energieverlauf letzte 24 Stunden',
+            'x_key': 'zeitstempel',
+            'y_key': 'energie'
+        }
         tk.Button(
             energieverbrauch_ostfalia_frame,
             text="24h",
-            command=lambda: self.filter_and_plot_data(daten_komplett, 4, 1,
-                                                      x_label="Zeit", y_label="Energie",
-                                                      title="Energieverlauf letzte 24 Stunden"),
+            command=lambda: self.filter_and_plot_data(daten_komplett, config_24_hours),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
-        # Button, um zum Hauptmenü zurückzukehren
         tk.Button(
             energieverbrauch_ostfalia_frame, text="Zurück", command=self.close_current_menu
         ).pack(pady=5, padx=10, side=tk.LEFT)
@@ -578,21 +636,25 @@ class MainApp(tk.Tk):
         """
         Zeigt die Benutzeroberfläche für historische Daten des Kompressors Ostfalia.
         """
-        self.close_current_menu()  # Schließt das aktuell geöffnete Menü
-        historische_daten_ostfalia_frame = tk.Frame(self)  # Erstellt einen neuen Frame
-        historische_daten_ostfalia_frame.pack(
-            padx=10, pady=10
-        )  # Platziert den Frame im Hauptfenster
-        self.current_menu_frame = (
-            historische_daten_ostfalia_frame  # Aktualisiert das aktuell geöffnete Menü
-        )
+        self.close_current_menu()
+        historische_daten_ostfalia_frame = tk.Frame(self)
+        historische_daten_ostfalia_frame.pack(padx=10, pady=10)
+        self.current_menu_frame = historische_daten_ostfalia_frame
 
+        # Konfiguration für die historischen Energie-Daten
+        config_historische_daten = {
+            'device_id': 4,
+            'days': '',
+            'x_label': 'Zeit',
+            'y_label': 'Energie',
+            'title': 'Historischer Energieverlauf',
+            'x_key': 'zeitstempel',
+            'y_key': 'energie'
+        }
         tk.Button(
             historische_daten_ostfalia_frame,
             text="Energie",
-            command=lambda: self.filter_and_plot_data(daten_komplett, 4, '',
-                                                      x_label="Zeit", y_label="Energie",
-                                                      title="Energieverlauf"),
+            command=lambda: self.filter_and_plot_data(daten_komplett, config_historische_daten),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         # Button, um zum Hauptmenü zurückzukehren
@@ -604,29 +666,44 @@ class MainApp(tk.Tk):
 
     def show_gesamt_druck(self):
         """
-            Zeigt die Benutzeroberfläche für die Gesamtdruckansicht des Kompressors
-            mit verschiedenen Zeitoptionen.
-            """
-        self.close_current_menu()  # Schließt das aktuell geöffnete Menü
-        gesamt_ipt_druck_frame = tk.Frame(self)  # Erstellt einen neuen Frame
-        gesamt_ipt_druck_frame.pack(padx=10, pady=10)  # Platziert den Frame im Hauptfenster
-        self.current_menu_frame = (
-            gesamt_ipt_druck_frame  # Aktualisiert das aktuell geöffnete Menü
-        )
+        Zeigt die Benutzeroberfläche für die Gesamtdruckansicht des Kompressors
+        mit verschiedenen Zeitoptionen.
+        """
+        self.close_current_menu()
+        gesamt_ipt_druck_frame = tk.Frame(self)
+        gesamt_ipt_druck_frame.pack(padx=10, pady=10)
+        self.current_menu_frame = gesamt_ipt_druck_frame
+
+        # Konfiguration für 7 Tage
+        config_7_days = {
+            'device_id': alledrei,
+            'days': 7,
+            'x_label': 'Zeit',
+            'y_label': 'Druck',
+            'title': 'Druckverlauf letzte 7 Tage',
+            'x_key': 'zeitstempel',
+            'y_key': 'druck'
+        }
         tk.Button(
             gesamt_ipt_druck_frame,
             text="7 Tage",
-            command=lambda: self.filter_and_plot_data(daten_komplett, alledrei, 7,
-                                                      x_label="Zeit", y_label="Druck",
-                                                      title="Druckverlauf letzte 7 Tage"),
+            command=lambda: self.filter_and_plot_data(daten_komplett, config_7_days),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
+        # Konfiguration für 24 Stunden
+        config_24_hours = {
+            'device_id': alledrei,
+            'days': 1,
+            'x_label': 'Zeit',
+            'y_label': 'Druck',
+            'title': 'Druckverlauf letzte 24 Stunden',
+            'x_key': 'zeitstempel',
+            'y_key': 'druck'
+        }
         tk.Button(
             gesamt_ipt_druck_frame,
             text="24h",
-            command=lambda: self.filter_and_plot_data(daten_komplett, alledrei, 1,
-                                                      x_label="Zeit", y_label="Druck",
-                                                      title="Druckverlauf letzte 24 Stunden"),
+            command=lambda: self.filter_and_plot_data(daten_komplett, config_24_hours),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         tk.Button(
@@ -635,30 +712,45 @@ class MainApp(tk.Tk):
 
     def show_gesamt_durchfluss(self):
         """
-            Stellt die Benutzeroberfläche für die Durchflussansicht des Kompressors bereit.
-            Ermöglicht Benutzern, Durchflussdaten für unterschiedliche Zeiträume
-            zu betrachten und zu analysieren.
-            """
-        self.close_current_menu()  # Schließt das aktuell geöffnete Menü
-        gesamt_ipt_durchfluss_frame = tk.Frame(self)  # Erstellt einen neuen Frame
-        gesamt_ipt_durchfluss_frame.pack(padx=10, pady=10)  # Platziert den Frame im Hauptfenster
-        self.current_menu_frame = (
-            gesamt_ipt_durchfluss_frame  # Aktualisiert das aktuell geöffnete Menü
-        )
+        Stellt die Benutzeroberfläche für die Durchflussansicht des Kompressors bereit.
+        Ermöglicht Benutzern, Durchflussdaten für unterschiedliche Zeiträume zu
+        betrachten und zu analysieren.
+        """
+        self.close_current_menu()
+        gesamt_ipt_durchfluss_frame = tk.Frame(self)
+        gesamt_ipt_durchfluss_frame.pack(padx=10, pady=10)
+        self.current_menu_frame = gesamt_ipt_durchfluss_frame
+
+        # Konfiguration für 7 Tage
+        config_7_days = {
+            'device_id': alledrei,
+            'days': 7,
+            'x_label': 'Zeit',
+            'y_label': 'Durchfluss',
+            'title': 'Durchflussverlauf letzte 7 Tage',
+            'x_key': 'zeitstempel',
+            'y_key': 'durchfluss'
+        }
         tk.Button(
             gesamt_ipt_durchfluss_frame,
             text="7 Tage",
-            command=lambda: self.filter_and_plot_data(daten_komplett, alledrei, 7,
-                                                      x_label="Zeit", y_label="Durchfluss",
-                                                      title="Durchflussverlauf letzte 7 Tage"),
+            command=lambda: self.filter_and_plot_data(daten_komplett, config_7_days),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
+        # Konfiguration für 24 Stunden
+        config_24_hours = {
+            'device_id': alledrei,
+            'days': 1,
+            'x_label': 'Zeit',
+            'y_label': 'Durchfluss',
+            'title': 'Durchfluss letzte 24 Stunden',
+            'x_key': 'zeitstempel',
+            'y_key': 'durchfluss'
+        }
         tk.Button(
             gesamt_ipt_durchfluss_frame,
             text="24h",
-            command=lambda: self.filter_and_plot_data(daten_komplett, alledrei, 1,
-                                                      x_label="Zeit", y_label="Durchfluss",
-                                                      title="Durchfluss letzte 24 Stunden"),
+            command=lambda: self.filter_and_plot_data(daten_komplett, config_24_hours),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         tk.Button(
@@ -667,31 +759,44 @@ class MainApp(tk.Tk):
 
     def show_gesamt_temperatur(self):
         """
-            Öffnet die Ansicht für die Temperaturdaten des Kompressors.
-            Benutzer können Temperaturverläufe für verschiedene Zeiträume auswählen
-            und anzeigen.
-            """
+        Öffnet die Ansicht für die Temperaturdaten des Kompressors.
+        Benutzer können Temperaturverläufe für verschiedene Zeiträume auswählen und anzeigen.
+        """
+        self.close_current_menu()
+        gesamt_ipt_temperatur_frame = tk.Frame(self)
+        gesamt_ipt_temperatur_frame.pack(padx=10, pady=10)
+        self.current_menu_frame = gesamt_ipt_temperatur_frame
 
-        self.close_current_menu()  # Schließt das aktuell geöffnete Menü
-        gesamt_ipt_temperatur_frame = tk.Frame(self)  # Erstellt einen neuen Frame
-        gesamt_ipt_temperatur_frame.pack(padx=10, pady=10)  # Platziert den Frame im Hauptfenster
-        self.current_menu_frame = (
-            gesamt_ipt_temperatur_frame  # Aktualisiert das aktuell geöffnete Menü
-        )
+        # Konfiguration für 7 Tage
+        config_7_days = {
+            'device_id': alledrei,
+            'days': 7,
+            'x_label': 'Zeit',
+            'y_label': 'Temperatur',
+            'title': 'Temperaturverlauf letzte 7 Tage',
+            'x_key': 'zeitstempel',
+            'y_key': 'temperatur'
+        }
         tk.Button(
             gesamt_ipt_temperatur_frame,
             text="7 Tage",
-            command=lambda: self.filter_and_plot_data(daten_komplett, alledrei, 7,
-                                                      x_label="Zeit", y_label="Temperatur",
-                                                      title="Temperaturverlauf letzte 7 Tage"),
+            command=lambda: self.filter_and_plot_data(daten_komplett, config_7_days),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
+        # Konfiguration für 24 Stunden
+        config_24_hours = {
+            'device_id': alledrei,
+            'days': 1,
+            'x_label': 'Zeit',
+            'y_label': 'Temperatur',
+            'title': 'Temperaturverlauf letzte 24 Stunden',
+            'x_key': 'zeitstempel',
+            'y_key': 'temperatur'
+        }
         tk.Button(
             gesamt_ipt_temperatur_frame,
             text="24h",
-            command=lambda: self.filter_and_plot_data(daten_komplett, alledrei, 1,
-                                                      x_label="Zeit", y_label="Temperatur",
-                                                      title="Temperarturverlauf letzte 24 Stunden"),
+            command=lambda: self.filter_and_plot_data(daten_komplett, config_24_hours),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         tk.Button(
@@ -700,31 +805,44 @@ class MainApp(tk.Tk):
 
     def show_gesamt_energie(self):
         """
-            Präsentiert die Benutzeroberfläche für die Gesamtenergieansicht
-            des Kompressors.
-            Bietet Optionen zur Anzeige von Energieverbrauchsdaten über
-            ausgewählte Zeiträume.
-            """
-        self.close_current_menu()  # Schließt das aktuell geöffnete Menü
-        gesamt_ipt_energie_frame = tk.Frame(self)  # Erstellt einen neuen Frame
-        gesamt_ipt_energie_frame.pack(padx=10, pady=10)  # Platziert den Frame im Hauptfenster
-        self.current_menu_frame = (
-            gesamt_ipt_energie_frame  # Aktualisiert das aktuell geöffnete Menü
-        )
+        Präsentiert die Benutzeroberfläche für die Gesamtenergieansicht des Kompressors.
+        Bietet Optionen zur Anzeige von Energieverbrauchsdaten über ausgewählte Zeiträume.
+        """
+        self.close_current_menu()
+        gesamt_ipt_energie_frame = tk.Frame(self)
+        gesamt_ipt_energie_frame.pack(padx=10, pady=10)
+        self.current_menu_frame = gesamt_ipt_energie_frame
+
+        # Konfiguration für 7 Tage
+        config_7_days = {
+            'device_id': alledrei,
+            'days': 7,
+            'x_label': 'Zeit',
+            'y_label': 'Energie',
+            'title': 'Energieverlauf letzte 7 Tage',
+            'x_key': 'zeitstempel',
+            'y_key': 'energie'
+        }
         tk.Button(
             gesamt_ipt_energie_frame,
             text="7 Tage",
-            command=lambda: self.filter_and_plot_data(daten_komplett, alledrei, 7,
-                                                      x_label="Zeit", y_label="Energie",
-                                                      title="Energieverlauf letzte 7 Tagen"),
+            command=lambda: self.filter_and_plot_data(daten_komplett, config_7_days),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
+        # Konfiguration für 24 Stunden
+        config_24_hours = {
+            'device_id': alledrei,
+            'days': 1,
+            'x_label': 'Zeit',
+            'y_label': 'Energie',
+            'title': 'Energieverlauf letzte 24 Stunden',
+            'x_key': 'zeitstempel',
+            'y_key': 'energie'
+        }
         tk.Button(
             gesamt_ipt_energie_frame,
             text="24h",
-            command=lambda: self.filter_and_plot_data(daten_komplett, alledrei, 1,
-                                                      x_label="Zeit", y_label="Energie",
-                                                      title="Energieverlauf letzte 24 Stunden"),
+            command=lambda: self.filter_and_plot_data(daten_komplett, config_24_hours),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         tk.Button(
@@ -735,21 +853,25 @@ class MainApp(tk.Tk):
         """
         Zeigt die Benutzeroberfläche für historische Daten des Kompressors Ostfalia.
         """
-        self.close_current_menu()  # Schließt das aktuell geöffnete Menü
-        historische_daten_druck_frame = tk.Frame(self)  # Erstellt einen neuen Frame
-        historische_daten_druck_frame.pack(
-            padx=10, pady=10
-        )  # Platziert den Frame im Hauptfenster
-        self.current_menu_frame = (
-            historische_daten_druck_frame  # Aktualisiert das aktuell geöffnete Menü
-        )
+        self.close_current_menu()
+        historische_daten_druck_frame = tk.Frame(self)
+        historische_daten_druck_frame.pack(padx=10, pady=10)
+        self.current_menu_frame = historische_daten_druck_frame
 
+        # Konfiguration für die Anzeige der historischen Druckdaten
+        config_historische_daten = {
+            'device_id': alledrei,
+            'days': '',
+            'x_label': 'Zeit',
+            'y_label': 'Druck',
+            'title': 'Historischer Druckverlauf',
+            'x_key': 'zeitstempel',
+            'y_key': 'druck'
+        }
         tk.Button(
             historische_daten_druck_frame,
             text="Druck",
-            command=lambda: self.filter_and_plot_data(daten_komplett, alledrei, '',
-                                                      x_label="Zeit", y_label="Druck",
-                                                      title="Druckverlau"),
+            command=lambda: self.filter_and_plot_data(daten_komplett, config_historische_daten),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         # Button, um zum Hauptmenü zurückzukehren
@@ -761,24 +883,28 @@ class MainApp(tk.Tk):
 
     def show_historische_daten_durchfluss(self):
         """
-            Bietet eine Ansicht der historischen Durchflussdaten des Kompressors.
-            Ermöglicht detaillierte Analysen des Durchflussverhaltens über die Zeit.
-            """
-        self.close_current_menu()  # Schließt das aktuell geöffnete Menü
-        historische_daten_durchfluss_frame = tk.Frame(self)  # Erstellt einen neuen Frame
-        historische_daten_durchfluss_frame.pack(
-            padx=10, pady=10
-        )  # Platziert den Frame im Hauptfenster
-        self.current_menu_frame = (
-            historische_daten_durchfluss_frame  # Aktualisiert das aktuell geöffnete Menü
-        )
+        Bietet eine Ansicht der historischen Durchflussdaten des Kompressors.
+        Ermöglicht detaillierte Analysen des Durchflussverhaltens über die Zeit.
+        """
+        self.close_current_menu()
+        historische_daten_durchfluss_frame = tk.Frame(self)
+        historische_daten_durchfluss_frame.pack(padx=10, pady=10)
+        self.current_menu_frame = historische_daten_durchfluss_frame
 
+        # Konfiguration für die Anzeige der historischen Durchflussdaten
+        config_historische_daten = {
+            'device_id': alledrei,
+            'days': '',
+            'x_label': 'Zeit',
+            'y_label': 'Durchfluss',
+            'title': 'Historischer Durchflussverlauf',
+            'x_key': 'zeitstempel',
+            'y_key': 'durchfluss'
+        }
         tk.Button(
             historische_daten_durchfluss_frame,
             text="Durchfluss",
-            command=lambda: self.filter_and_plot_data(daten_komplett, alledrei, '',
-                                                      x_label="Zeit", y_label="Durchfluss",
-                                                      title="Durchfluss"),
+            command=lambda: self.filter_and_plot_data(daten_komplett, config_historische_daten),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         # Button, um zum Hauptmenü zurückzukehren
@@ -790,24 +916,28 @@ class MainApp(tk.Tk):
 
     def show_historische_daten_temperatur(self):
         """
-            Stellt die historischen Temperaturdaten des Kompressors dar.
-            Ermöglicht es Benutzern, Temperaturtrends über längere Zeiträume zu verfolgen.
-            """
-        self.close_current_menu()  # Schließt das aktuell geöffnete Menü
-        historische_daten_temperatur_frame = tk.Frame(self)  # Erstellt einen neuen Frame
-        historische_daten_temperatur_frame.pack(
-            padx=10, pady=10
-        )  # Platziert den Frame im Hauptfenster
-        self.current_menu_frame = (
-            historische_daten_temperatur_frame  # Aktualisiert das aktuell geöffnete Menü
-        )
+        Stellt die historischen Temperaturdaten des Kompressors dar.
+        Ermöglicht es Benutzern, Temperaturtrends über längere Zeiträume zu verfolgen.
+        """
+        self.close_current_menu()
+        historische_daten_temperatur_frame = tk.Frame(self)
+        historische_daten_temperatur_frame.pack(padx=10, pady=10)
+        self.current_menu_frame = historische_daten_temperatur_frame
 
+        # Konfiguration für die Anzeige der historischen Temperaturdaten
+        config_historische_daten = {
+            'device_id': alledrei,
+            'days': '',
+            'x_label': 'Zeit',
+            'y_label': 'Temperatur',
+            'title': 'Historischer Temperaturverlauf',
+            'x_key': 'zeitstempel',
+            'y_key': 'temperatur'
+        }
         tk.Button(
             historische_daten_temperatur_frame,
             text="Temperatur",
-            command=lambda: self.filter_and_plot_data(daten_komplett, alledrei, '',
-                                                      x_label="Zeit", y_label="Temperatur",
-                                                      title="Temperaturverlauf"),
+            command=lambda: self.filter_and_plot_data(daten_komplett, config_historische_daten),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         # Button, um zum Hauptmenü zurückzukehren
@@ -819,25 +949,28 @@ class MainApp(tk.Tk):
 
     def show_historische_daten_energie(self):
         """
-            Zeigt die historischen Energieverbrauchsdaten des Kompressors.
-            Bietet Einblicke in den Energieverbrauch des Kompressors
-            über verschiedene Zeiträume.
-            """
-        self.close_current_menu()  # Schließt das aktuell geöffnete Menü
-        historische_daten_energie_frame = tk.Frame(self)  # Erstellt einen neuen Frame
-        historische_daten_energie_frame.pack(
-            padx=10, pady=10
-        )  # Platziert den Frame im Hauptfenster
-        self.current_menu_frame = (
-            historische_daten_energie_frame  # Aktualisiert das aktuell geöffnete Menü
-        )
+        Zeigt die historischen Energieverbrauchsdaten des Kompressors.
+        Bietet Einblicke in den Energieverbrauch des Kompressors über verschiedene Zeiträume.
+        """
+        self.close_current_menu()
+        historische_daten_energie_frame = tk.Frame(self)
+        historische_daten_energie_frame.pack(padx=10, pady=10)
+        self.current_menu_frame = historische_daten_energie_frame
 
+        # Konfiguration für die Anzeige der historischen Energieverbrauchsdaten
+        config_historische_daten = {
+            'device_id': alledrei,
+            'days': '',
+            'x_label': 'Zeit',
+            'y_label': 'Energie',
+            'title': 'Historischer Energieverlauf',
+            'x_key': 'zeitstempel',
+            'y_key': 'energie'
+        }
         tk.Button(
             historische_daten_energie_frame,
             text="Energie",
-            command=lambda: self.filter_and_plot_data(daten_komplett, alledrei, '',
-                                                      x_label="Zeit", y_label="Energie",
-                                                      title="Energieverlauf"),
+            command=lambda: self.filter_and_plot_data(daten_komplett, config_historische_daten),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         # Button, um zum Hauptmenü zurückzukehren
