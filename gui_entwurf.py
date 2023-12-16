@@ -239,7 +239,7 @@ class MainApp(tk.Tk):
 
         self.current_menu_frame = None  # Initialisiere die current_menu_frame-Variable
         self.menu_frames = {}  # Initialisiere das menu_frames-Dictionary
-
+    import matplotlib.pyplot as plt
 
     def create_kompressor_ipt_page(self):
         '''
