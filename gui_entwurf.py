@@ -1,219 +1,12 @@
-"""
-Modul zur Verwaltung und Visualisierung von Kompressordaten mit Tkinter und Matplotlib.
-
-Dieses Modul beinhaltet die Klasse MainApp, die eine umfassende grafische Benutzeroberfläche (GUI)
- für die Überwachung
-und Analyse von Kompressordaten erstellt. Sie ermöglicht es Benutzern,
- verschiedene Datenansichten für Kompressoren
-bei IPT und Ostfalia einzusehen, einschließlich aktueller und historischer Daten.
- Die Anwendung nutzt Tkinter für die
-GUI und Matplotlib für die Datenvisualisierung. Es können wichtige Metriken
- wie Energieverbrauch, Druck, Temperatur
-und Durchfluss über unterschiedliche Zeiträume hinweg visualisiert werden.
-
-Die Variable 'alledrei' dient als eine Sammlung von IDs, die für die Filterung
- und Analyse aller drei Hauptkomponenten
-der Kompressordaten verwendet wird.
-
-Hauptfunktionen:
-- Erstellen von Benutzeroberflächen für verschiedene Kompressordatenansichten.
-- Filtern von Daten nach Geräte-ID und Zeitraum.
-- Visualisierung von Daten in Diagrammen mit Matplotlib.
-
-Wichtige Importe:
-- tkinter: Für die GUI-Komponenten.
-- datetime: Zum Umgang mit Datums- und Zeitdaten.
-- matplotlib: Zur Erstellung von Diagrammen zur Datenvisualisierung.
-"""
-
 import tkinter as tk
 from tkinter import ttk
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 from matplotlib import dates as mdates
-alledrei = [1,2,3]
+from daten_bereitstellen import merge_data, daten_geraet, daten_sensor, bearbeite_datensaetze
+daten_komplett = merge_data(daten_geraet, daten_sensor)
+gesamt_energie_daten = bearbeite_datensaetze(daten_geraet)
 
-# Beispielaufruf der Funktionen
-daten_komplett = [
-    {'datag_id': 1, 'geraet_id': 1, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-01 08:00:00',
-     'energie': 100,
-     'datas_id': 101},
-    {'datag_id': 2, 'geraet_id': 2, 'bereich': 'Bereich B', 'zeitstempel': '2023-12-02 09:30:00',
-     'energie': 150,
-     'datas_id': 102},
-    {'datag_id': 3, 'geraet_id': 3, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-03 10:45:00',
-     'energie': 120,
-     'datas_id': 103},
-    {'datag_id': 4, 'geraet_id': 4, 'bereich': 'Bereich B', 'zeitstempel': '2023-12-04 11:15:00',
-     'energie': 130,
-     'datas_id': 104},
-    {'datag_id': 5, 'geraet_id': 1, 'bereich': 'Bereich C', 'zeitstempel': '2023-12-05 12:30:00',
-     'energie': 110,
-     'datas_id': 105},
-    {'datag_id': 6, 'geraet_id': 2, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-06 13:45:00',
-     'energie': 140,
-     'datas_id': 106},
-    {'datag_id': 7, 'geraet_id': 3, 'bereich': 'Bereich B', 'zeitstempel': '2023-12-07 14:55:00',
-     'energie': 125,
-     'datas_id': 107},
-    {'datag_id': 8, 'geraet_id': 4, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-08 15:20:00',
-     'energie': 155,
-     'datas_id': 108},
-    {'datag_id': 9, 'geraet_id': 1, 'bereich': 'Bereich C', 'zeitstempel': '2023-12-09 16:40:00',
-     'energie': 145,
-     'datas_id': 109},
-    {'datag_id': 10, 'geraet_id': 2, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-10 17:10:00',
-     'energie': 135,
-     'datas_id': 110},
-    {'datag_id': 11, 'geraet_id': 3, 'bereich': 'Bereich B', 'zeitstempel': '2023-12-11 18:25:00',
-     'energie': 115,
-     'datas_id': 111},
-    {'datag_id': 12, 'geraet_id': 4, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-12 19:40:00',
-     'energie': 125,
-     'datas_id': 112},
-    {'datag_id': 13, 'geraet_id': 1, 'bereich': 'Bereich C', 'zeitstempel': '2023-12-13 20:50:00',
-     'energie': 105,
-     'datas_id': 113},
-    {'datag_id': 14, 'geraet_id': 2, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-14 21:15:00',
-     'energie': 150,
-     'datas_id': 114},
-    {'datag_id': 15, 'geraet_id': 3, 'bereich': 'Bereich B', 'zeitstempel': '2023-12-15 22:30:00',
-     'energie': 140,
-     'datas_id': 115},
-    {'datag_id': 16, 'geraet_id': 4, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-16 23:45:00',
-     'energie': 130,
-     'datas_id': 116},
-    {'datag_id': 17, 'geraet_id': 1, 'bereich': 'Bereich C', 'zeitstempel': '2023-12-17 14:55:00',
-     'energie': 110,
-     'datas_id': 117},
-    {'datag_id': 18, 'geraet_id': 2, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-18 01:10:00',
-     'energie': 135,
-     'datas_id': 118},
-    {'datag_id': 19, 'geraet_id': 3, 'bereich': 'Bereich B', 'zeitstempel': '2023-12-19 02:25:00',
-     'energie': 125,
-     'datas_id': 119},
-    {'datag_id': 20, 'geraet_id': 4, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-20 03:30:00',
-     'energie': 160,
-     'datas_id': 120},
-    {'datag_id': 21, 'geraet_id': 1, 'bereich': 'Bereich C', 'zeitstempel': '2023-12-21 04:45:00',
-     'energie': 115,
-     'datas_id': 121},
-    {'datag_id': 22, 'geraet_id': 2, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-22 05:55:00',
-     'energie': 105,
-     'datas_id': 122},
-    {'datag_id': 23, 'geraet_id': 3, 'bereich': 'Bereich B', 'zeitstempel': '2023-12-23 06:10:00',
-     'energie': 140,
-     'datas_id': 123},
-    {'datag_id': 24, 'geraet_id': 4, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-24 07:25:00',
-     'energie': 150,
-     'datas_id': 124},
-    {'datag_id': 25, 'geraet_id': 1, 'bereich': 'Bereich C', 'zeitstempel': '2023-12-25 08:35:00',
-     'energie': 120,
-     'datas_id': 125},
-    {'datag_id': 26, 'geraet_id': 4, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-15 09:50:00',
-     'energie': 110,
-     'datas_id': 126},
-    {'datag_id': 27, 'geraet_id': 3, 'bereich': 'Bereich B', 'zeitstempel': '2023-12-27 10:05:00',
-     'energie': 130,
-     'datas_id': 127},
-    {'datag_id': 28, 'geraet_id': 4, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-28 11:20:00',
-     'energie': 140,
-     'datas_id': 128},
-    {'datag_id': 29, 'geraet_id': 1, 'bereich': 'Bereich C', 'zeitstempel': '2023-12-29 12:30:00',
-     'energie': 150,
-     'datas_id': 129},
-    {'datag_id': 30, 'geraet_id': 2, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-30 13:45:00',
-     'energie': 160,
-     'datas_id': 130},
-    {'datag_id': 31, 'geraet_id': 1, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-01 08:00:00',
-     'energie': 110,
-     'datas_id': 131},
-    {'datag_id': 32, 'geraet_id': 2, 'bereich': 'Bereich B', 'zeitstempel': '2023-12-02 09:30:00',
-     'energie': 120,
-     'datas_id': 132},
-    {'datag_id': 33, 'geraet_id': 3, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-03 10:45:00',
-     'energie': 130,
-     'datas_id': 133},
-    {'datag_id': 34, 'geraet_id': 4, 'bereich': 'Bereich B', 'zeitstempel': '2023-12-04 11:15:00',
-     'energie': 140,
-     'datas_id': 134},
-    {'datag_id': 35, 'geraet_id': 1, 'bereich': 'Bereich C', 'zeitstempel': '2023-12-05 12:30:00',
-     'energie': 150,
-     'datas_id': 135},
-    {'datag_id': 36, 'geraet_id': 2, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-06 13:45:00',
-     'energie': 160,
-     'datas_id': 136},
-    {'datag_id': 37, 'geraet_id': 3, 'bereich': 'Bereich B', 'zeitstempel': '2023-12-07 14:55:00',
-     'energie': 110,
-     'datas_id': 137},
-    {'datag_id': 38, 'geraet_id': 4, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-08 15:20:00',
-     'energie': 120,
-     'datas_id': 138},
-    {'datag_id': 39, 'geraet_id': 1, 'bereich': 'Bereich C', 'zeitstempel': '2023-12-09 16:40:00',
-     'energie': 130,
-     'datas_id': 139},
-    {'datag_id': 40, 'geraet_id': 2, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-10 17:10:00',
-     'energie': 140,
-     'datas_id': 140},
-    {'datag_id': 41, 'geraet_id': 3, 'bereich': 'Bereich B', 'zeitstempel': '2023-12-11 18:25:00',
-     'energie': 150,
-     'datas_id': 141},
-    {'datag_id': 42, 'geraet_id': 4, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-12 19:40:00',
-     'energie': 110,
-     'datas_id': 142},
-    {'datag_id': 43, 'geraet_id': 1, 'bereich': 'Bereich C', 'zeitstempel': '2023-12-13 20:50:00',
-     'energie': 120,
-     'datas_id': 143},
-    {'datag_id': 44, 'geraet_id': 2, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-14 21:15:00',
-     'energie': 130,
-     'datas_id': 144},
-    {'datag_id': 45, 'geraet_id': 3, 'bereich': 'Bereich B', 'zeitstempel': '2023-12-15 22:30:00',
-     'energie': 140,
-     'datas_id': 145},
-    {'datag_id': 46, 'geraet_id': 4, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-16 23:45:00',
-     'energie': 150,
-     'datas_id': 146},
-    {'datag_id': 47, 'geraet_id': 1, 'bereich': 'Bereich C', 'zeitstempel': '2023-12-17 14:55:00',
-     'energie': 160,
-     'datas_id': 147},
-    {'datag_id': 48, 'geraet_id': 2, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-18 01:10:00',
-     'energie': 110,
-     'datas_id': 148},
-    {'datag_id': 49, 'geraet_id': 3, 'bereich': 'Bereich B', 'zeitstempel': '2023-12-19 02:25:00',
-     'energie': 120,
-     'datas_id': 149},
-    {'datag_id': 50, 'geraet_id': 4, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-20 03:30:00',
-     'energie': 130,
-     'datas_id': 150},
-    {'datag_id': 51, 'geraet_id': 1, 'bereich': 'Bereich C', 'zeitstempel': '2023-12-21 04:45:00',
-     'energie': 140,
-     'datas_id': 151},
-    {'datag_id': 52, 'geraet_id': 2, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-22 05:55:00',
-     'energie': 150,
-     'datas_id': 152},
-    {'datag_id': 53, 'geraet_id': 3, 'bereich': 'Bereich B', 'zeitstempel': '2023-12-23 06:10:00',
-     'energie': 160,
-     'datas_id': 153},
-    {'datag_id': 54, 'geraet_id': 4, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-24 07:25:00',
-     'energie': 110,
-     'datas_id': 154},
-    {'datag_id': 55, 'geraet_id': 1, 'bereich': 'Bereich C', 'zeitstempel': '2023-12-25 08:35:00',
-     'energie': 120,
-     'datas_id': 155},
-    {'datag_id': 56, 'geraet_id': 4, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-26 09:50:00',
-     'energie': 130,
-     'datas_id': 156},
-    {'datag_id': 57, 'geraet_id': 3, 'bereich': 'Bereich B', 'zeitstempel': '2023-12-27 10:05:00',
-     'energie': 140,
-     'datas_id': 157},
-    {'datag_id': 58, 'geraet_id': 4, 'bereich': 'Bereich A', 'zeitstempel': '2023-12-28 11:20:00',
-     'energie': 150,
-     'datas_id': 158},
-    {'datag_id': 59, 'geraet_id': 1, 'bereich': 'Bereich C', 'zeitstempel': '2023-12-29 12:30:00',
-     'energie': 160,
-     'datas_id': 159},
-
-]  # Ihre vollständigen Daten
 
 class MainApp(tk.Tk):
     """
@@ -239,7 +32,6 @@ class MainApp(tk.Tk):
 
         self.current_menu_frame = None  # Initialisiere die current_menu_frame-Variable
         self.menu_frames = {}  # Initialisiere das menu_frames-Dictionary
-    import matplotlib.pyplot as plt
 
     def create_kompressor_ipt_page(self):
         '''
@@ -326,7 +118,7 @@ class MainApp(tk.Tk):
         return [record for record in data_array if record['geraet_id'] == device_id]
 
     def plot_data(self, data_array, x_label='X-Achse', y_label='Y-Achse', title='Diagramm',
-                  x_key='zeitstempel', y_key='energie'):
+                  x_key='zeitstempel', y_key=''):
         """
             Erstellt ein Diagramm aus den bereitgestellten Daten, wobei Beschriftungen
             und Titel angepasst werden können.
@@ -355,15 +147,48 @@ class MainApp(tk.Tk):
             """
         device_id = config.get('device_id')
         days = config.get('days')
-        x_label = config.get('x_label', 'X-Achse')
-        y_label = config.get('y_label', 'Y-Achse')
-        title = config.get('title', 'Diagramm')
+        x_label = config.get('x_label', '')
+        y_label = config.get('y_label', '')
+        title = config.get('title', '')
         x_key = config.get('x_key', 'zeitstempel')
-        y_key = config.get('y_key', 'energie')
+        y_key = config.get('y_key', '')
 
         filtered_data = self.filter_data_by_device_id(data_array, device_id)
         filtered_data = self.filter_data_by_period(filtered_data, days)
         self.plot_data(filtered_data, x_label, y_label, title, x_key, y_key)
+    def filter_and_plot_historische_daten(self, data_array, config):
+        """
+            Kombiniert das Filtern der Daten nach Geräte-ID und Zeitraum
+             mit der Erstellung eines Diagramms.
+            """
+        device_id = config.get('device_id')
+        x_label = config.get('x_label', '')
+        y_label = config.get('y_label', '')
+        title = config.get('title', '')
+        x_key = config.get('x_key', 'zeitstempel')
+        y_key = config.get('y_key', '')
+        print(data_array)
+        filtered_data = self.filter_data_by_device_id(data_array, device_id)
+        print(filtered_data)
+        self.plot_data(filtered_data, x_label, y_label, title, x_key, y_key)
+
+    def plot_gesamt_energie(self, gesamt_energie_daten, days):
+        filtered_data=self.filter_data_by_period(gesamt_energie_daten, days)
+        # Extrahiere Zeitstempel und gesamt_energie aus den Datensätzen
+        zeitstempel = [datensatz['zeitstempel'] for datensatz in filtered_data]
+        gesamt_energie = [datensatz['gesamt_energie'] for datensatz in filtered_data]
+
+        # Plot erstellen
+        plt.figure(figsize=(10, 5))
+        plt.plot(zeitstempel, gesamt_energie, marker='o', linestyle='-')
+        plt.title('Gesamtenergieverlauf')
+        plt.xlabel('Zeitstempel')
+        plt.ylabel('Gesamtenergie')
+        plt.grid(True)
+        plt.tight_layout()
+
+        # Plot anzeigen
+        plt.show()
 
     def show_kompressor_ipt_kompressor(self):
         """
@@ -386,7 +211,7 @@ class MainApp(tk.Tk):
             'x_key': 'zeitstempel',
             'y_key': 'energie'
         }
-
+        print(daten_komplett)
         tk.Button(
             kompressordaten_ipt_frame,
             text="7 Tage",
@@ -644,7 +469,6 @@ class MainApp(tk.Tk):
         # Konfiguration für die historischen Energie-Daten
         config_historische_daten = {
             'device_id': 4,
-            'days': '',
             'x_label': 'Zeit',
             'y_label': 'Energie',
             'title': 'Historischer Energieverlauf',
@@ -654,7 +478,8 @@ class MainApp(tk.Tk):
         tk.Button(
             historische_daten_ostfalia_frame,
             text="Energie",
-            command=lambda: self.filter_and_plot_data(daten_komplett, config_historische_daten),
+            command=lambda: self.filter_and_plot_historische_daten(daten_komplett,
+                                                                   config_historische_daten),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         # Button, um zum Hauptmenü zurückzukehren
@@ -676,7 +501,7 @@ class MainApp(tk.Tk):
 
         # Konfiguration für 7 Tage
         config_7_days = {
-            'device_id': alledrei,
+            'device_id': 1,
             'days': 7,
             'x_label': 'Zeit',
             'y_label': 'Druck',
@@ -692,7 +517,7 @@ class MainApp(tk.Tk):
 
         # Konfiguration für 24 Stunden
         config_24_hours = {
-            'device_id': alledrei,
+            'device_id': 1,
             'days': 1,
             'x_label': 'Zeit',
             'y_label': 'Druck',
@@ -723,7 +548,7 @@ class MainApp(tk.Tk):
 
         # Konfiguration für 7 Tage
         config_7_days = {
-            'device_id': alledrei,
+            'device_id': 1,
             'days': 7,
             'x_label': 'Zeit',
             'y_label': 'Durchfluss',
@@ -739,7 +564,7 @@ class MainApp(tk.Tk):
 
         # Konfiguration für 24 Stunden
         config_24_hours = {
-            'device_id': alledrei,
+            'device_id': 1,
             'days': 1,
             'x_label': 'Zeit',
             'y_label': 'Durchfluss',
@@ -769,7 +594,7 @@ class MainApp(tk.Tk):
 
         # Konfiguration für 7 Tage
         config_7_days = {
-            'device_id': alledrei,
+            'device_id': 1,
             'days': 7,
             'x_label': 'Zeit',
             'y_label': 'Temperatur',
@@ -785,7 +610,7 @@ class MainApp(tk.Tk):
 
         # Konfiguration für 24 Stunden
         config_24_hours = {
-            'device_id': alledrei,
+            'device_id': 1,
             'days': 1,
             'x_label': 'Zeit',
             'y_label': 'Temperatur',
@@ -804,50 +629,28 @@ class MainApp(tk.Tk):
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
     def show_gesamt_energie(self):
-        """
-        Präsentiert die Benutzeroberfläche für die Gesamtenergieansicht des Kompressors.
-        Bietet Optionen zur Anzeige von Energieverbrauchsdaten über ausgewählte Zeiträume.
-        """
+        # Präsentiert die Benutzeroberfläche für die Gesamtenergieansicht des Kompressors
         self.close_current_menu()
         gesamt_ipt_energie_frame = tk.Frame(self)
         gesamt_ipt_energie_frame.pack(padx=10, pady=10)
         self.current_menu_frame = gesamt_ipt_energie_frame
 
-        # Konfiguration für 7 Tage
-        config_7_days = {
-            'device_id': alledrei,
-            'days': 7,
-            'x_label': 'Zeit',
-            'y_label': 'Energie',
-            'title': 'Energieverlauf letzte 7 Tage',
-            'x_key': 'zeitstempel',
-            'y_key': 'energie'
-        }
         tk.Button(
             gesamt_ipt_energie_frame,
             text="7 Tage",
-            command=lambda: self.filter_and_plot_data(daten_komplett, config_7_days),
+            command=lambda: self.plot_gesamt_energie(gesamt_energie_daten, 7)
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
-        # Konfiguration für 24 Stunden
-        config_24_hours = {
-            'device_id': alledrei,
-            'days': 1,
-            'x_label': 'Zeit',
-            'y_label': 'Energie',
-            'title': 'Energieverlauf letzte 24 Stunden',
-            'x_key': 'zeitstempel',
-            'y_key': 'energie'
-        }
         tk.Button(
             gesamt_ipt_energie_frame,
             text="24h",
-            command=lambda: self.filter_and_plot_data(daten_komplett, config_24_hours),
+            command=lambda: self.plot_gesamt_energie(gesamt_energie_daten, 1)
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         tk.Button(
             gesamt_ipt_energie_frame, text="Zurück", command=self.close_current_menu
         ).pack(pady=5, padx=10, side=tk.LEFT)
+
 
     def show_historische_daten_druck(self):
         """
@@ -860,8 +663,7 @@ class MainApp(tk.Tk):
 
         # Konfiguration für die Anzeige der historischen Druckdaten
         config_historische_daten = {
-            'device_id': alledrei,
-            'days': '',
+            'device_id': 1,
             'x_label': 'Zeit',
             'y_label': 'Druck',
             'title': 'Historischer Druckverlauf',
@@ -871,7 +673,8 @@ class MainApp(tk.Tk):
         tk.Button(
             historische_daten_druck_frame,
             text="Druck",
-            command=lambda: self.filter_and_plot_data(daten_komplett, config_historische_daten),
+            command=lambda: self.filter_and_plot_historische_daten(daten_komplett,
+                                                                   config_historische_daten),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         # Button, um zum Hauptmenü zurückzukehren
@@ -893,8 +696,7 @@ class MainApp(tk.Tk):
 
         # Konfiguration für die Anzeige der historischen Durchflussdaten
         config_historische_daten = {
-            'device_id': alledrei,
-            'days': '',
+            'device_id': 1,
             'x_label': 'Zeit',
             'y_label': 'Durchfluss',
             'title': 'Historischer Durchflussverlauf',
@@ -904,7 +706,8 @@ class MainApp(tk.Tk):
         tk.Button(
             historische_daten_durchfluss_frame,
             text="Durchfluss",
-            command=lambda: self.filter_and_plot_data(daten_komplett, config_historische_daten),
+            command=lambda: self.filter_and_plot_historische_daten(daten_komplett,
+                                                                   config_historische_daten),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         # Button, um zum Hauptmenü zurückzukehren
@@ -926,8 +729,7 @@ class MainApp(tk.Tk):
 
         # Konfiguration für die Anzeige der historischen Temperaturdaten
         config_historische_daten = {
-            'device_id': alledrei,
-            'days': '',
+            'device_id': 1,
             'x_label': 'Zeit',
             'y_label': 'Temperatur',
             'title': 'Historischer Temperaturverlauf',
@@ -937,7 +739,8 @@ class MainApp(tk.Tk):
         tk.Button(
             historische_daten_temperatur_frame,
             text="Temperatur",
-            command=lambda: self.filter_and_plot_data(daten_komplett, config_historische_daten),
+            command=lambda: self.filter_and_plot_historische_daten(daten_komplett,
+                                                                   config_historische_daten),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         # Button, um zum Hauptmenü zurückzukehren
@@ -959,18 +762,18 @@ class MainApp(tk.Tk):
 
         # Konfiguration für die Anzeige der historischen Energieverbrauchsdaten
         config_historische_daten = {
-            'device_id': alledrei,
-            'days': '',
+            'device_id': 0,
             'x_label': 'Zeit',
             'y_label': 'Energie',
             'title': 'Historischer Energieverlauf',
             'x_key': 'zeitstempel',
-            'y_key': 'energie'
+            'y_key': 'gesamt_energie'
         }
         tk.Button(
             historische_daten_energie_frame,
             text="Energie",
-            command=lambda: self.filter_and_plot_data(daten_komplett, config_historische_daten),
+            command=lambda: self.filter_and_plot_historische_daten(gesamt_energie_daten,
+                                                                   config_historische_daten),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         # Button, um zum Hauptmenü zurückzukehren
