@@ -18,6 +18,7 @@ zwei unterschiedlichen Bereichen.
 - Implementierung in SQL.
 - Schreiben von Testfällen, um die korrekte Speicherung und Abfrage der Daten zu überprüfen.
 - Erweiterbarkeit für weitere Geräte einplanen
+  
 ER-Modell Version 1:
 
 ER-Modell (Version 2) der verwendeten Datenbank:
