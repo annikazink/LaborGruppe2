@@ -194,13 +194,63 @@ class TestApi(unittest.TestCase):
 
 from api import *
 from unittest.mock import MagicMock, patch
+import unittest
 
-class TestApi():
-    def test_api_call_successfull(self):
-        pass
+class TestApi(unittest.TestCase):
+    expected_data = {"Kompressor_IPT": [...]}
 
-    def test_api_call_unsuccessfull(self):
-        pass
+    def create_mock_response(self, status_code, data=None):
+        mock_response = MagicMock()
+        mock_response.status_code = status_code
+        mock_response.json.return_value = data
+        return mock_response
+
+    @patch('api.Api.get_response_url')
+    def test_api_call_successful(self, mock_get_response_url):
+        mock_response = self.create_mock_response(200, self.expected_data)
+        mock_get_response_url.return_value = mock_response
+
+
+        self.assertIsNotNone(mock_response)
+        self.assertEqual(mock_response.status_code, 200)
+        self.assertEqual(mock_response.json.return_value, self.expected_data)
+
+
+    def test_api_call_unsuccessful_no_response(self):
+        mock_response = self.create_mock_response(404)
+        self.assertEqual(mock_response.status_code, 404)
+        self.assertIsNone(mock_response.json.return_value)
+
+    @patch('api.Api.get_response_url', side_effect=requests.exceptions.RequestException("Failed to resolve host"))
+    def test_api_call_unsuccessful_name_resolution_error(self, mock_get_response_url):
+        # Arrange
+        expected_error_message = "Failed to resolve host"
+
+        # Act/Assert
+        with self.assertRaises(requests.exceptions.RequestException) as context:
+            response = requests.get("http://example.url")
+
+        # Assert that the mock was called
+        mock_get_response_url.assert_called_once_with("http://example.url")
+
+        # Optional: You can assert additional details about the exception if needed
+        self.assertEqual(str(context.exception), expected_error_message)
+
+    @patch('api.Api.get_response_url')
+    def test_api_call_unsuccessful_not_expected_data(self, mock_get_response_url):
+        # Configure the mock to return unexpected data
+        mock_response = self.create_mock_response(200, {"3D_Drucker_IPT": []})
+        mock_get_response_url.return_value = mock_response
+
+        self.assertEqual(mock_response.status_code, 200)
+        # Act/Assert
+        with self.assertRaises(AssertionError):
+
+            # Assert that the mock was called with the correct URL
+            mock_get_response_url.assert_called_once_with("http://example.url")
+
+            # Assert that the returned data matches the expected data
+            self.assertEqual(response.json(), self.expected_data)
 
     def test_api_call_returns_json(self):
         pass
