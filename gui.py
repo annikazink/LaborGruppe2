@@ -20,16 +20,6 @@ def connect_to_database():
         print(f"Error connecting to the database: {e}")
         return None
 
-# Verbindung zur Datenbank herstellen
-connection = connect_to_database()
-
-if connection:
-    print("Verbindung zur Datenbank hergestellt.")
-    # Hier kannst du Datenbankabfragen ausführen oder andere Operationen durchführen
-    # Vergiss nicht, die Verbindung am Ende zu schließen: connection.close()
-else:
-    print("Keine Verbindung zur Datenbank hergestellt.")
-
 def get_table_names():
     connection = connect_to_database()
     if connection:
@@ -50,13 +40,6 @@ def get_table_names():
     else:
         print("Keine Verbindung zur Datenbank hergestellt.")
 
-# Tabellennamen abrufen und anzeigen
-tables = get_table_names()
-if tables:
-    print("Verfügbare Tabellen:")
-    for table in tables:
-        print(table)
-
 # Funktion zum Abrufen der letzten 10 Datensätze der energie der geraet Tabelle
 def get_last_10_records(table_name):
     connection = connect_to_database()
@@ -76,28 +59,38 @@ def get_last_10_records(table_name):
             connection.close()  # Verbindung schließen, wenn fertig
     else:
         print("Keine Verbindung zur Datenbank hergestellt.")
-# Funktion, die aufgerufen wird, wenn der "Historie" -Button geklickt wird
 
-# Funktion, die aufgerufen wird, wenn der "Historie" -Button geklickt wird
-# Funktion, die aufgerufen wird, wenn der "Historie" -Button geklickt wird
-def on_historie_button_click():
+# Folgende Funktion ruft die Energiewerte für den Kompressor IPT ab.
+def on_historie_button_clickOstfalia():
     last_10_records = get_last_10_records("geraet")  # Ersetze 'deine_tabelle' durch den tatsächlichen Tabellennamen
     if last_10_records:
         historie_text.delete(1.0, tk.END)  # Lösche den aktuellen Inhalt des Textfelds
         for record in last_10_records:
-            formatted_record = f"ID: Energie: {record['energie']}, Zeitstempel: {record['zeit']}\n"
+            formatted_record = f"ID: {record['geraet_id']}, Energie: {record['energie']}, Zeitstempel: {record['zeitstempel']}\n"
+            historie_text.insert(tk.END, formatted_record)  # Füge jeden Datensatz im gewünschten Format in das Textfeld ein
+
+# Folgende Funktion ruft druck, durchfluss, temperaturwerte des Kompressor Ostfalia ab
+def on_historie_button_clickIPT():
+    last_10_records = get_last_10_records("sensor")  # Ersetze 'deine_tabelle' durch den tatsächlichen Tabellennamen
+    if last_10_records:
+        historie_text.delete(1.0, tk.END)  # Lösche den aktuellen Inhalt des Textfelds
+        for record in last_10_records:
+            formatted_record = f"ID: {record['geraet_id']}, Druck: {record['druck']}, Durchfluss: {record['durchfluss']}, temperatur: {record['temperatur']}, Zeitstempel: {record['zeitstempel']}\n"
             historie_text.insert(tk.END, formatted_record)  # Füge jeden Datensatz im gewünschten Format in das Textfeld ein
 
 # Erstelle ein tkinter-Fenster
 root = tk.Tk()
 root.title("Historie")
 
-# Erstelle den "Historie" -Button
-historie_button = tk.Button(root, text="Historie", command=on_historie_button_click)
-historie_button.pack()
+# Erstelle den "HistorieIPT" -Button
+historieIPT_button = tk.Button(root, text="Historie IPT", command=on_historie_button_clickIPT)
+historieIPT_button.pack()
+
+historieOstfalia_button = tk.Button(root, text='Historie Ostfalia', command=on_historie_button_clickOstfalia)
+historieOstfalia_button.pack()
 
 # Erstelle ein Textfeld zur Anzeige der Historie
-historie_text = tk.Text(root, height=10, width=50)
+historie_text = tk.Text(root, height=50, width=60)
 historie_text.pack()
 
 # Starte die tkinter-Hauptloop
