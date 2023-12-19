@@ -239,7 +239,7 @@ class TestApi(unittest.TestCase):
     @patch('api.Api.get_response_url')
     def test_api_call_unsuccessful_not_expected_data(self, mock_get_response_url):
         # Configure the mock to return unexpected data
-        mock_response = self.create_mock_response(200, {"3D_Drucker_IPT": []})
+        mock_response = self.create_mock_response(200, {"3D_Drucker_IPT": []}) #status_code correct, but wrong data
         mock_get_response_url.return_value = mock_response
 
         self.assertEqual(mock_response.status_code, 200)

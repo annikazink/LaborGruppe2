@@ -180,10 +180,7 @@ class Api:
             sys.exit(1)
 
 if __name__ == '__main__':
-    #api_instance = Api()
-    #api_instance.main()
-    try:
-        response = requests.get("http://example.url")
-    except Exception as e:
-        print(f"Error: {str(e)}")
+    api_instance = Api()
+    api_instance.main()
+
 
