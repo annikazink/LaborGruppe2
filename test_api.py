@@ -221,8 +221,8 @@ class TestApi(unittest.TestCase):
         self.assertEqual(mock_response.status_code, 404)
         self.assertIsNone(mock_response.json.return_value)
 
-    @patch('api.Api.get_response_url', side_effect=requests.exceptions.RequestException("Failed to resolve host"))
-    def test_api_call_unsuccessful_name_resolution_error(self, mock_get_response_url):
+    @patch('requests.get', side_effect=requests.exceptions.RequestException("Failed to resolve host"))
+    def test_api_call_unsuccessful_name_resolution_error(self, mock_requests_get):
         # Arrange
         expected_error_message = "Failed to resolve host"
 
@@ -231,7 +231,7 @@ class TestApi(unittest.TestCase):
             response = requests.get("http://example.url")
 
         # Assert that the mock was called
-        mock_get_response_url.assert_called_once_with("http://example.url")
+        mock_requests_get.assert_called_once_with("http://example.url")
 
         # Optional: You can assert additional details about the exception if needed
         self.assertEqual(str(context.exception), expected_error_message)
