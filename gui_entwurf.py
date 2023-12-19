@@ -834,6 +834,4 @@ class MainApp(tk.Tk):
             command=self.close_current_menu,
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
-if __name__ == "__main__":
-    app = MainApp()
-    app.mainloop()
+
