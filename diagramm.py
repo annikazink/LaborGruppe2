@@ -1,4 +1,6 @@
-
+"""
+Klasse zur erstellung von Diagrammen
+"""
 import tkinter as tk
 from tkinter import ttk
 from datetime import datetime, timedelta
@@ -162,4 +164,3 @@ def plot_gesamt_energie(self, gesamt_energie_daten, days):
     plt.grid(True)
     plt.tight_layout()  # Sorgt für eine ordentliche Anordnung der Plot-Elemente
     plt.show()
-
