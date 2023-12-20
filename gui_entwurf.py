@@ -155,7 +155,7 @@ class MainApp(tk.Tk):
         tk.Button(
             kompressordaten_ipt_frame,
             text="7 Tage",
-            command=lambda: self.filter_and_plot_data(daten_komplett, config_7_days),
+            command=lambda: filter_and_plot_data(daten_komplett, config_7_days),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         config_24_hours = {
@@ -171,7 +171,7 @@ class MainApp(tk.Tk):
         tk.Button(
             kompressordaten_ipt_frame,
             text="24h",
-            command=lambda: self.filter_and_plot_data(daten_komplett, config_24_hours),
+            command=lambda: filter_and_plot_data(daten_komplett, config_24_hours),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         tk.Button(
@@ -200,7 +200,7 @@ class MainApp(tk.Tk):
         tk.Button(
             entluefter_ipt_frame,
             text="7 Tage",
-            command=lambda: self.filter_and_plot_data(daten_komplett, config_7_days),
+            command=lambda: filter_and_plot_data(daten_komplett, config_7_days),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         # Konfiguration für 24 Stunden
@@ -216,7 +216,7 @@ class MainApp(tk.Tk):
         tk.Button(
             entluefter_ipt_frame,
             text="24h",
-            command=lambda: self.filter_and_plot_data(daten_komplett, config_24_hours),
+            command=lambda: filter_and_plot_data(daten_komplett, config_24_hours),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         tk.Button(
@@ -245,7 +245,7 @@ class MainApp(tk.Tk):
         tk.Button(
             kuehler_ipt_frame,
             text="7 Tage",
-            command=lambda: self.filter_and_plot_data(daten_komplett, config_7_days),
+            command=lambda: filter_and_plot_data(daten_komplett, config_7_days),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         # Konfiguration für 24 Stunden
@@ -261,7 +261,7 @@ class MainApp(tk.Tk):
         tk.Button(
             kuehler_ipt_frame,
             text="24h",
-            command=lambda: self.filter_and_plot_data(daten_komplett, config_24_hours),
+            command=lambda: filter_and_plot_data(daten_komplett, config_24_hours),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         tk.Button(
@@ -375,7 +375,7 @@ class MainApp(tk.Tk):
         tk.Button(
             energieverbrauch_ostfalia_frame,
             text="7 Tage",
-            command=lambda: self.filter_and_plot_data(daten_komplett, config_7_days),
+            command=lambda: filter_and_plot_data(daten_komplett, config_7_days),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         # Konfiguration für 24 Stunden
@@ -391,7 +391,7 @@ class MainApp(tk.Tk):
         tk.Button(
             energieverbrauch_ostfalia_frame,
             text="24h",
-            command=lambda: self.filter_and_plot_data(daten_komplett, config_24_hours),
+            command=lambda: filter_and_plot_data(daten_komplett, config_24_hours),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         tk.Button(
@@ -421,7 +421,7 @@ class MainApp(tk.Tk):
         tk.Button(
             historische_daten_ostfalia_frame,
             text="Energie",
-            command=lambda: self.filter_and_plot_historische_daten(
+            command=lambda: filter_and_plot_historische_daten(
                 daten_komplett, config_historische_daten
             ),
         ).pack(pady=5, padx=10, side=tk.LEFT)
@@ -456,7 +456,7 @@ class MainApp(tk.Tk):
         tk.Button(
             gesamt_ipt_druck_frame,
             text="7 Tage",
-            command=lambda: self.filter_and_plot_data(daten_komplett, config_7_days),
+            command=lambda: filter_and_plot_data(daten_komplett, config_7_days),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         # Konfiguration für 24 Stunden
@@ -472,7 +472,7 @@ class MainApp(tk.Tk):
         tk.Button(
             gesamt_ipt_druck_frame,
             text="24h",
-            command=lambda: self.filter_and_plot_data(daten_komplett, config_24_hours),
+            command=lambda: filter_and_plot_data(daten_komplett, config_24_hours),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         tk.Button(
@@ -503,7 +503,7 @@ class MainApp(tk.Tk):
         tk.Button(
             gesamt_ipt_durchfluss_frame,
             text="7 Tage",
-            command=lambda: self.filter_and_plot_data(daten_komplett, config_7_days),
+            command=lambda: filter_and_plot_data(daten_komplett, config_7_days),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         # Konfiguration für 24 Stunden
@@ -519,7 +519,7 @@ class MainApp(tk.Tk):
         tk.Button(
             gesamt_ipt_durchfluss_frame,
             text="24h",
-            command=lambda: self.filter_and_plot_data(daten_komplett, config_24_hours),
+            command=lambda: filter_and_plot_data(daten_komplett, config_24_hours),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         tk.Button(
@@ -549,7 +549,7 @@ class MainApp(tk.Tk):
         tk.Button(
             gesamt_ipt_temperatur_frame,
             text="7 Tage",
-            command=lambda: self.filter_and_plot_data(daten_komplett, config_7_days),
+            command=lambda: filter_and_plot_data(daten_komplett, config_7_days),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         # Konfiguration für 24 Stunden
@@ -565,7 +565,7 @@ class MainApp(tk.Tk):
         tk.Button(
             gesamt_ipt_temperatur_frame,
             text="24h",
-            command=lambda: self.filter_and_plot_data(daten_komplett, config_24_hours),
+            command=lambda: filter_and_plot_data(daten_komplett, config_24_hours),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         tk.Button(
@@ -585,13 +585,13 @@ class MainApp(tk.Tk):
         tk.Button(
             gesamt_ipt_energie_frame,
             text="7 Tage",
-            command=lambda: self.plot_gesamt_energie(gesamt_energie_daten, 7),
+            command=lambda: plot_gesamt_energie(gesamt_energie_daten, 7),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         tk.Button(
             gesamt_ipt_energie_frame,
             text="24h",
-            command=lambda: self.plot_gesamt_energie(gesamt_energie_daten, 1),
+            command=lambda: plot_gesamt_energie(gesamt_energie_daten, 1),
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
         tk.Button(
@@ -619,7 +619,7 @@ class MainApp(tk.Tk):
         tk.Button(
             historische_daten_druck_frame,
             text="Druck",
-            command=lambda: self.filter_and_plot_historische_daten(
+            command=lambda: filter_and_plot_historische_daten(
                 daten_komplett, config_historische_daten
             ),
         ).pack(pady=5, padx=10, side=tk.LEFT)
@@ -653,7 +653,7 @@ class MainApp(tk.Tk):
         tk.Button(
             historische_daten_durchfluss_frame,
             text="Durchfluss",
-            command=lambda: self.filter_and_plot_historische_daten(
+            command=lambda: filter_and_plot_historische_daten(
                 daten_komplett, config_historische_daten
             ),
         ).pack(pady=5, padx=10, side=tk.LEFT)
@@ -687,7 +687,7 @@ class MainApp(tk.Tk):
         tk.Button(
             historische_daten_temperatur_frame,
             text="Temperatur",
-            command=lambda: self.filter_and_plot_historische_daten(
+            command=lambda: filter_and_plot_historische_daten(
                 daten_komplett, config_historische_daten
             ),
         ).pack(pady=5, padx=10, side=tk.LEFT)
@@ -721,7 +721,7 @@ class MainApp(tk.Tk):
         tk.Button(
             historische_daten_energie_frame,
             text="Energie",
-            command=lambda: self.filter_and_plot_historische_daten(
+            command=lambda: filter_and_plot_historische_daten(
                 gesamt_energie_daten, config_historische_daten
             ),
         ).pack(pady=5, padx=10, side=tk.LEFT)
