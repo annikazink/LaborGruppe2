@@ -92,8 +92,6 @@ class MainApp(tk.Tk):
         question_label = tk.Label(plus_frame, text="Möchtest du einen weiteres Gerät hinzufügen?")
         question_label.pack(pady=5, padx=10)
 
-        tk.Button(plus_frame, text="ja", command=self.show_KompressorIPT_Kompressor).pack(pady=5, padx=10, side=tk.LEFT)
-        tk.Button(plus_frame, text="nein", command=self.show_KompressorIPT_Entluefter).pack(pady=5, padx=10, side=tk.LEFT)
 
     def create_kompressor_ostfalia_page(self):
         """
