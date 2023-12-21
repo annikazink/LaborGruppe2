@@ -6,10 +6,12 @@ Last modified: 18.12.23
 """
 import tkinter as tk
 from tkinter import ttk
-from datetime import datetime, timedelta
-import matplotlib.pyplot as plt
-from matplotlib import dates as mdates
-from diagramm import filter_data_by_period, plot_data, filter_and_plot_data, filter_and_plot_historische_daten, plot_gesamt_energie
+#from datetime import datetime, timedelta
+#import matplotlib.pyplot as plt
+#from matplotlib import dates as mdates
+from diagramm import (filter_and_plot_data,
+                      filter_and_plot_historische_daten,
+                      plot_gesamt_energie)
 from daten_bereitstellen import (
     merge_data,
     daten_geraet,
