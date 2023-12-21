@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from matplotlib import dates as mdates
 
 
-def filter_data_by_period(self, data_array, days):
+def filter_data_by_period(data_array, days):
     """
     Filtert die Daten, um nur die Einträge der letzten angegebenen Tage zurückzugeben.
     """
@@ -22,22 +22,22 @@ def filter_data_by_period(self, data_array, days):
            > threshold_time
     ]
 
-def filter_data_by_period(self, data_array, device_id):
+
+def filter_data_by_device_id(data_array, device_id):
     """
     Filtert die Daten basierend auf der angegebenen Geräte-ID.
     """
 
     return [record for record in data_array if record["geraet_id"] == device_id]
 
-def plot_data(
-        self,
-        data_array,
-        x_label="X-Achse",
-        y_label="Y-Achse",
-        title="Diagramm",
-        x_key="zeitstempel",
-        y_key="",
-):
+
+def plot_data(data_array,
+              x_label="X-Achse",
+              y_label="Y-Achse",
+              title="Diagramm",
+              x_key="zeitstempel",
+              y_key="",
+              ):
     """
     Erstellt ein Diagramm aus den bereitgestellten Daten, wobei Beschriftungen
     und Titel angepasst werden können.
@@ -62,7 +62,8 @@ def plot_data(
     plt.xticks(rotation=45)
     plt.show()
 
-def filter_and_plot_data(self, data_array, config):
+
+def filter_and_plot_data(data_array, config):
     """
     Kombiniert das Filtern der Daten nach Geräte-ID und Zeitraum
      mit der Erstellung eines Diagramms.
@@ -75,11 +76,12 @@ def filter_and_plot_data(self, data_array, config):
     x_key = config.get("x_key", "zeitstempel")
     y_key = config.get("y_key", "")
 
-    filtered_data = self.filter_data_by_device_id(data_array, device_id)
-    filtered_data = self.filter_data_by_period(filtered_data, days)
-    self.plot_data(filtered_data, x_label, y_label, title, x_key, y_key)
+    filtered_data = filter_data_by_device_id(data_array, device_id)
+    filtered_data = filter_data_by_period(filtered_data, days)
+    plot_data(filtered_data, x_label, y_label, title, x_key, y_key)
 
-def filter_and_plot_historische_daten(self, data_array, config):
+
+def filter_and_plot_historische_daten(data_array, config):
     """
     Kombiniert das Filtern der Daten nach Geräte-ID und Zeitraum
     mit der Erstellung eines Diagramms.
@@ -126,7 +128,8 @@ def filter_and_plot_historische_daten(self, data_array, config):
     plt.tight_layout()
     plt.show()
 
-def plot_gesamt_energie(self, gesamt_energie_daten, days):
+
+def plot_gesamt_energie(gesamt_energie_daten, days):
     """
     Plottet die Gesamtenergie über die angegebenen Tage.
 
@@ -137,7 +140,7 @@ def plot_gesamt_energie(self, gesamt_energie_daten, days):
 
     """
 
-    filtered_data = self.filter_data_by_period(gesamt_energie_daten, days)
+    filtered_data = filter_data_by_period(gesamt_energie_daten, days)
 
     # Extrahiere Zeitstempel und gesamt_energie aus den Datensätzen
     zeitstempel = [
