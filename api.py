@@ -15,7 +15,10 @@ class Api:
     }
     def get_response_url(self, url):
         response = requests.get(url)
-        return response.json()
+        if response.status_code != 404:
+            return response.json()
+        else:
+            return "URL nicht erreichbar"
 
 
 
