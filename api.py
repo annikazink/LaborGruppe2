@@ -15,10 +15,17 @@ class Api:
     }
     def get_response_url(self, url):
         response = requests.get(url)
-        if response.status_code != 404:
+        if response.status_code == 200:
             return response.json()
+        elif response.status_code == 404:
+            return "URL nicht gefunden"
+        elif response.status_code == 400:
+            return "Fehlerhafte Anfrage"
+        elif response.status_code == 401:
+            return "Nicht autorisiert"
         else:
-            return "URL nicht erreichbar"
+            return "Abfrage fehlgeschlagen. Status Code: " + str(response.status_code)
+
 
 
 

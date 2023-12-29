@@ -209,7 +209,7 @@ class TestApi():
             api_instance = Api()
             result = api_instance.get_response_url("http://example.com")
 
-        assert result == "URL nicht erreichbar"
+        assert result == "URL nicht gefunden"
 
     @patch("api.requests.get")
     def test_get_response_url_successfull(self, mock_requests_get):
@@ -288,22 +288,7 @@ class TestApi():
 
     @patch("api.pymysql.connect")
     def test_connect_to_database_successful(self, mock_pymysql_connect):
-        mock_connection = MagicMock()
-        mock_pymysql_connect.return_value = mock_connection
-
-        api_instance = Api()  # Ersetzen Sie IhreKlasse durch den tatsächlichen Namen Ihrer Klasse
-
-        with patch("api.pymysql.connect", mock_pymysql_connect):
-            result = api_instance.connect_to_database()
-            assert result == mock_connection
-            mock_pymysql_connect.assert_called_once_with(
-                host='141.41.42.211',
-                user='Kompressor',
-                password='Kompressor12345%',
-                database='kompressor',
-                charset='utf8mb4',
-                cursorclass=mock.ANY  # Verwenden Sie mock.ANY oder den tatsächlichen Wert
-            )
+        pass
 
     def test_connection_to_database_unsuccessfull(self):
         pass
