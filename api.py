@@ -1,7 +1,10 @@
+'''
+Kopfzeile
+
+'''
 import requests
 import pymysql
 import sys
-import traceback
 import time
 import smtplib
 from email.mime.text import MIMEText
