@@ -288,7 +288,48 @@ class TestApi():
 
     @patch("api.pymysql.connect")
     def test_connect_to_database_successful(self, mock_pymysql_connect):
-        pass
+        # Konfigurieren Sie das Mock-Verhalten
+        mock_connection = mock_pymysql_connect.return_value
 
-    def test_connection_to_database_unsuccessfull(self):
-        pass
+        # Erstellen Sie eine Instanz Ihrer API-Klasse
+        api_instance = Api()
+
+        # Führen Sie die Methode aus, die die Verbindung zur Datenbank herstellt
+        result = api_instance.connect_to_database()
+
+        # Überprüfen Sie, ob die pymysql.connect-Methode einmal aufgerufen wurde
+        mock_pymysql_connect.assert_called_once_with(
+            host='141.41.42.211',
+            user='Kompressor',
+            password='Kompressor12345%',
+            database='kompressor',
+            charset='utf8mb4',
+            cursorclass=pymysql.cursors.DictCursor
+        )
+
+        # Überprüfen Sie, ob die Verbindung korrekt zurückgegeben wurde
+        assert result == mock_connection
+
+    @patch("api.pymysql.connect")
+    def test_connection_to_database_unsuccessfull(self, mock_pymysql_connect):
+        # Konfigurieren Sie das Mock-Verhalten, um eine Ausnahme zu werfen
+        mock_pymysql_connect.side_effect = pymysql.Error("Connection failed")
+
+        # Erstellen Sie eine Instanz Ihrer API-Klasse
+        api_instance = Api()
+
+        # Führen Sie die Methode aus, die die Verbindung zur Datenbank herstellt
+        result = api_instance.connect_to_database()
+
+        # Überprüfen Sie, ob die pymysql.connect-Methode einmal aufgerufen wurde
+        mock_pymysql_connect.assert_called_once_with(
+            host='141.41.42.211',
+            user='Kompressor',
+            password='Kompressor12345%',
+            database='kompressor',
+            charset='utf8mb4',
+            cursorclass=pymysql.cursors.DictCursor
+        )
+
+        # Überprüfen Sie, ob die Verbindung nicht erfolgreich war und None zurückgegeben wurde
+        assert result == None
