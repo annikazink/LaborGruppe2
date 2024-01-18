@@ -17,6 +17,7 @@ from daten_bereitstellen import (
     daten_geraet,
     daten_sensor,
     bearbeite_datensaetze,
+    connect_to_database
 )
 
 daten_komplett = merge_data(daten_geraet, daten_sensor)
@@ -86,15 +87,44 @@ class MainApp(tk.Tk):
         ).pack(pady=5, padx=10, side=tk.LEFT)
 
     def create_plus_page(self):
-        """"
+        """
         Erstellt die Benutzeroberfläche um ein weiteres Gerät hinzuzufügen
         """
         plus_frame = tk.Frame(self.notebook)
         self.notebook.add(plus_frame, text="+")
 
-        question_label = tk.Label(plus_frame, text="Möchtest du einen weiteres Gerät hinzufügen?")
-        question_label.pack(pady=5, padx=10)
+        # Eingabefeld für den neuen Namen des Geräts
+        new_name_label = tk.Label(plus_frame, text="Bereich des neuen Geräts:")
+        new_name_label.pack(pady=5)
 
+        self.new_name_entry = tk.Entry(plus_frame)
+        self.new_name_entry.pack(pady=5)
+
+        # Button zum Hinzufügen des Geräts
+        add_device_button = tk.Button(plus_frame, text="Gerät hinzufügen", command=self.add_device)
+        add_device_button.pack(pady=5)
+
+    def add_device(self):
+        # Diese Methode wird aufgerufen, wenn der "Gerät hinzufügen"-Button gedrückt wird
+        new_name = self.new_name_entry.get()
+
+        if new_name:
+            # Hier können Sie die Logik zur Datenbankverbindung und zum Hinzufügen des Geräts einfügen
+            # Beispiel:
+            db_connection = connect_to_database()
+            if db_connection:
+                with db_connection.cursor() as cursor:
+                    # SQL-Befehl zum Erstellen der neuen Tabelle
+                    create_table_query = f"""
+                                INSERT INTO geraet (geraet_id, bereich, zeitstempel, energie, datas_id)
+    VALUES (5, '{new_name}', CURRENT_TIMESTAMP, 0, NULL);
+                            """
+                    cursor.execute(create_table_query)
+                    db_connection.commit()
+
+                print(f"Die Tabelle '{new_name}' wurde erfolgreich in die Datenbank eingefügt.")
+            # Fügen Sie die Logik zum Hinzufügen des Geräts basierend auf dem neuen Namen hinzu
+            print(f"Ein neues Gerät mit dem Namen '{new_name}' wird hinzugefügt.")
 
     def create_kompressor_ostfalia_page(self):
         """
@@ -730,3 +760,7 @@ class MainApp(tk.Tk):
             text="Zurück",
             command=self.close_current_menu,
         ).pack(pady=5, padx=10, side=tk.LEFT)
+
+if __name__ == "__main__":
+    app = MainApp()
+    app.mainloop()
