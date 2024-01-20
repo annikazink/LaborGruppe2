@@ -8,8 +8,8 @@ def test_merge_data():
     result = merge_data(daten_geraet, daten_sensor)
 
     assert len(result) == 1
-    assert result[0]['druck'] == None  # Prüfen, ob 'druck' im Ergebnis enthalten ist und den erwarteten Wert hat
-    assert result[0]['durchfluss'] == None
+    assert result[0]['druck'] is None  # Prüfen, ob 'druck' im Ergebnis enthalten ist und den erwarteten Wert hat
+    assert result[0]['durchfluss'] is None
     assert result[0]['temperatur'] is None
 
 # Test für die Funktion `bearbeite_datensaetze`
