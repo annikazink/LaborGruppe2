@@ -19,7 +19,7 @@ def filter_data_by_period(data_array, days):
         record
         for record in data_array
         if datetime.strptime(record["zeitstempel"], "%Y-%m-%d %H:%M:%S")
-           > threshold_time
+        > threshold_time
     ]
 
 
@@ -31,21 +31,21 @@ def filter_data_by_device_id(data_array, device_id):
     return [record for record in data_array if record["geraet_id"] == device_id]
 
 
-def plot_data(data_array,
-              x_label="X-Achse",
-              y_label="Y-Achse",
-              title="Diagramm",
-              x_key="zeitstempel",
-              y_key="",
-              ):
+def plot_data(
+    data_array,
+    x_label="X-Achse",
+    y_label="Y-Achse",
+    title="Diagramm",
+    x_key="zeitstempel",
+    y_key="",
+):
     """
     Erstellt ein Diagramm aus den bereitgestellten Daten, wobei Beschriftungen
     und Titel angepasst werden können.
     """
     data_array.sort(key=lambda x: datetime.strptime(x[x_key], "%Y-%m-%d %H:%M:%S"))
     x_data = [
-        datetime.strptime(record[x_key], "%Y-%m-%d %H:%M:%S")
-        for record in data_array
+        datetime.strptime(record[x_key], "%Y-%m-%d %H:%M:%S") for record in data_array
     ]
     y_data = [record[y_key] for record in data_array]
 
