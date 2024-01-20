@@ -1,16 +1,6 @@
 from daten_bereitstellen import merge_data, bearbeite_datensaetze
 
 # Test für die Funktion `merge_data`
-""""
-def test_merge_data():
-    daten_geraet = [{'geraet_id': 1, 'datas_id': 1, 'zeitstempel': '2024-01-19 12:00:00'},
-                    {'geraet_id': 1, 'datas_id': 2, 'zeitstempel': '2024-01-19 13:00:00'}]
-    daten_sensor = [{'datas_id': 1, 'zeitstempel': '2024-01-19 12:00:00', 'druck': 100, 'durchfluss': 50},
-                    {'datas_id': 2, 'zeitstempel': '2024-01-19 13:00:00', 'druck': 120, 'durchfluss': 60}]
-
-    result = merge_data(daten_geraet, daten_sensor)
-"""
-    # Test für die Funktion `merge_data`
 def test_merge_data():
     daten_geraet = [{'datag_id': 12289622, 'geraet_id': 1, 'bereich': 'NewDevice', 'zeitstempel': '2024-01-19 21:34:31', 'energie': 1, 'datas_id': 22, 'druck': 0.7, 'durchfluss': 300, 'temperatur': 17}]
     daten_sensor = [{'datas_id': 4738319, 'sensor_id': 1, 'zeitstempel': '2023-12-14 16:49:53', 'druck': 7, 'durchfluss': 50, 'temperatur': 20}]
@@ -37,7 +27,6 @@ def test_bearbeite_datensaetze():
 
 
 import unittest
-import tkinter as tk
 from unittest.mock import MagicMock
 from gui_entwurf import MainApp
 
@@ -56,50 +45,29 @@ class TestMainApp(unittest.TestCase):
         self.assertEqual(plus_page, "+")
 
     def test_add_device(self):
-        # Mocken Sie die Benutzereingabe für den neuen Gerätenamen
+        # Mocken der Benutzereingabe für den neuen Gerätenamen
         self.app.new_name_entry = MagicMock()
         self.app.new_name_entry.get.return_value = "NewDevice"
 
-        # Mocken Sie die Datenbankverbindung
+        # Mocken der Datenbankverbindung
         self.app.connect_to_database = MagicMock()
 
-        # Rufen Sie die Methode zum Hinzufügen des Geräts auf
+        # Aufrufen der Methode zum Hinzufügen des Geräts auf
         self.app.add_device()
 
-        # Überprüfen Sie, ob die Methode zur Datenbankverbindung aufgerufen wurde
-        #self.app.connect_to_database.assert_called()
-
-        # Überprüfen Sie, ob die Methode zum Hinzufügen des Geräts aufgerufen wurde
+        # Überprüfen, ob die Methode zum Hinzufügen des Geräts aufgerufen wurde
         self.assertTrue(self.app.new_name_entry.get.called)
 
     def test_show_kompressor_ipt_kompressor(self):
-        # Mocken Sie die filter_and_plot_data-Funktion
+        # Mocken der filter_and_plot_data-Funktion
         self.app.close_current_menu = MagicMock()
         self.app.filter_and_plot_data = MagicMock()
 
-        # Rufen Sie die Methode zum Anzeigen des Kompressor-Bereichs auf
+        # Aufrufen der Methode zum Anzeigen des Kompressor-Bereichs auf
         self.app.show_kompressor_ipt_kompressor()
 
-        # Überprüfen Sie, ob die Methode zum Schließen des aktuellen Menüs aufgerufen wurde
+        # Überprüfen, ob die Methode zum Schließen des aktuellen Menüs aufgerufen wurde
         self.assertTrue(self.app.close_current_menu.called)
-
-        # Überprüfen Sie, ob die Methode filter_and_plot_data mit den richtigen Parametern aufgerufen wurde
-        expected_config = {
-            "device_id": 1,
-            "days": 7,
-            "x_label": "Zeit",
-            "y_label": "Energie",
-            "title": "Energieverlauf letzte 7 Tage",
-            "x_key": "zeitstempel",
-            "y_key": "energie",
-        }
-        #self.app.filter_and_plot_data.assert_called_once_with(self.app.daten_komplett, expected_config)
-
-    def test_show_kompressor_ipt_entluefter(self):
-        pass
-            # Ähnlich wie oben, testen Sie die Methode show_kompressor_ipt_entluefter
-
-    # Fügen Sie weitere Testfälle für andere Methoden hinzu...
 
 if __name__ == '__main__':
     unittest.main()
