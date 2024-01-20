@@ -1,4 +1,7 @@
 from daten_bereitstellen import merge_data, bearbeite_datensaetze
+import unittest
+from unittest.mock import MagicMock
+from gui_entwurf import MainApp
 
 # Test für die Funktion `merge_data`
 def test_merge_data():
@@ -8,8 +11,8 @@ def test_merge_data():
     result = merge_data(daten_geraet, daten_sensor)
 
     assert len(result) == 1
-    assert result[0]['druck'] == None  # Prüfen, ob 'druck' im Ergebnis enthalten ist und den erwarteten Wert hat
-    assert result[0]['durchfluss'] == None
+    assert result[0]['druck'] is None
+    assert result[0]['durchfluss'] is None
     assert result[0]['temperatur'] is None
 
 # Test für die Funktion `bearbeite_datensaetze`
@@ -24,11 +27,6 @@ def test_bearbeite_datensaetze():
     assert len(result) == 2
     assert result[0]['gesamt_energie'] == 80
     assert result[1]['gesamt_energie'] == 60
-
-
-import unittest
-from unittest.mock import MagicMock
-from gui_entwurf import MainApp
 
 class TestMainApp(unittest.TestCase):
 
@@ -52,7 +50,7 @@ class TestMainApp(unittest.TestCase):
         # Mocken der Datenbankverbindung
         self.app.connect_to_database = MagicMock()
 
-        # Aufrufen der Methode zum Hinzufügen des Geräts auf
+        # Aufrufen der Methode zum Hinzufügen des Geräts
         self.app.add_device()
 
         # Überprüfen, ob die Methode zum Hinzufügen des Geräts aufgerufen wurde
@@ -63,7 +61,7 @@ class TestMainApp(unittest.TestCase):
         self.app.close_current_menu = MagicMock()
         self.app.filter_and_plot_data = MagicMock()
 
-        # Aufrufen der Methode zum Anzeigen des Kompressor-Bereichs auf
+        # Aufrufen der Methode zum Anzeigen des Kompressor-Bereichs
         self.app.show_kompressor_ipt_kompressor()
 
         # Überprüfen, ob die Methode zum Schließen des aktuellen Menüs aufgerufen wurde
