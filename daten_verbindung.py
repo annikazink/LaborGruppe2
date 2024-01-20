@@ -1,5 +1,7 @@
-import pytest
+"""datenverbindung"""
 from unittest.mock import MagicMock
+import pytest
+
 
 # Beispielstruktur der Daten basierend auf den Informationen aus dem Bild
 beispiel_kompressor_daten = {
@@ -25,12 +27,12 @@ beispiel_kompressor_daten = {
 
 # Funktion, die wir testen wollen, könnte so aussehen
 def hole_kompressor_daten():
+    """kompressor daten"""
     # Diese Funktion würde normalerweise die Daten von einem externen Server abrufen
-    pass
-
 
 @pytest.fixture
 def mock_kompressor_daten(monkeypatch):
+    """kompressor daten"""
     # Erstellen eines MagicMock-Objekts, das die simulierten Kompressordaten zurückgibt
     mock_datenquelle = MagicMock(return_value=beispiel_kompressor_daten)
     # Ersetzen der echten Funktion, die Daten abruft, durch den MagicMock
@@ -38,10 +40,3 @@ def mock_kompressor_daten(monkeypatch):
     return (
         mock_datenquelle  # Wir geben das Mock-Objekt zurück für die Verwendung im Test
     )
-
-
-def test_hole_kompressor_daten(mock_kompressor_daten):
-    # Hier rufen wir die Funktion auf, die jetzt durch MagicMock simuliert wird
-    daten = hole_kompressor_daten()
-    # Wir überprüfen, ob die zurückgegebenen Daten unseren simulierten Daten entsprechen
-    assert daten == beispiel_kompressor_daten

@@ -1,4 +1,4 @@
-# This is a sample Python script.
+"""This is a sample Python script."""
 from gui_entwurf import MainApp
 
 
@@ -7,6 +7,7 @@ from gui_entwurf import MainApp
 
 
 def print_hi(name):
+    """print"""
     # Use a breakpoint in the code line below to debug your script.
     print(f"Hi, {name}")  # Press ⌘F8 to toggle the breakpoint.
 
