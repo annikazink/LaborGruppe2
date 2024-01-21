@@ -36,6 +36,12 @@ Entwicklung einer grafischen Benutzeroberfläche (GUI), um die Daten der Kompres
 -Automatisiertes Testen der Aufbereitungsfunktion; Manuelles Testen der GUI<br>
 
 CODE Review:
+![image](https://github.com/annikazink/LaborGruppe2/assets/146163637/9b7c9b53-00b6-404a-9e68-597a689ab43c)
+
+![image](https://github.com/annikazink/LaborGruppe2/assets/146163637/9ba3a13a-1309-4995-a843-1abf2051eda8)
+
+![image](https://github.com/annikazink/LaborGruppe2/assets/146163637/a77237c7-f73c-4a4c-8425-a6b9c9bb7a04)
+
 
 ## Modul 3 Schnittstelle
 Anforderungen:<br>
@@ -46,3 +52,8 @@ Entwicklung eines Schnittstellenprogramms zur Kommunikation mit den Kompressoren
 - Sicherstellung, dass die Schnittstelle robust und fehlertolerant ist.
 
 Code Review:
+![image](https://github.com/annikazink/LaborGruppe2/assets/146163637/e728d204-44ad-4591-8f87-e54c44e88d4b)
+
+![image](https://github.com/annikazink/LaborGruppe2/assets/146163637/8818df6e-6ac3-4a0b-bd8f-b997fc821064)
+
+![image](https://github.com/annikazink/LaborGruppe2/assets/146163637/65c39044-a909-4877-a943-b9720c57de9f)
