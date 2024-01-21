@@ -19,7 +19,7 @@ zwei unterschiedlichen Bereichen.
 - Schreiben von Testfällen, um die korrekte Speicherung und Abfrage der Daten zu überprüfen.
 - Erweiterbarkeit für weitere Geräte einplanen
   
-ER-Modell Version 1:
+#### ER-Modell Version 1:
 
 ![image](https://github.com/annikazink/LaborGruppe2/assets/146163637/d1276622-6574-4109-9ab6-8059ee2d3825)
 
@@ -40,7 +40,7 @@ Entwicklung einer grafischen Benutzeroberfläche (GUI), um die Daten der Kompres
 -Aufbereitung von historischen Wochendaten, Tagesverbräuche und Darstellen auf der GUI<br>
 -Automatisiertes Testen der Aufbereitungsfunktion; Manuelles Testen der GUI<br>
 
-CODE Review:
+### CODE Review:
 ![image](https://github.com/annikazink/LaborGruppe2/assets/146163637/9b7c9b53-00b6-404a-9e68-597a689ab43c)
 
 ![image](https://github.com/annikazink/LaborGruppe2/assets/146163637/9ba3a13a-1309-4995-a843-1abf2051eda8)
@@ -56,7 +56,7 @@ Entwicklung eines Schnittstellenprogramms zur Kommunikation mit den Kompressoren
 - Schreiben von Mock-Tests zur Simulation der Kompressordaten und Überprüfung der Schnittstelle.
 - Sicherstellung, dass die Schnittstelle robust und fehlertolerant ist.
 
-Code Review:
+### Code Review:
 ![image](https://github.com/annikazink/LaborGruppe2/assets/146163637/e728d204-44ad-4591-8f87-e54c44e88d4b)
 
 ![image](https://github.com/annikazink/LaborGruppe2/assets/146163637/8818df6e-6ac3-4a0b-bd8f-b997fc821064)
