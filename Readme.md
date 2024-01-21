@@ -35,6 +35,8 @@ Entwicklung einer grafischen Benutzeroberfläche (GUI), um die Daten der Kompres
 -Aufbereitung von historischen Wochendaten, Tagesverbräuche und Darstellen auf der GUI<br>
 -Automatisiertes Testen der Aufbereitungsfunktion; Manuelles Testen der GUI<br>
 
+CODE Review:
+
 ## Modul 3 Schnittstelle
 Anforderungen:<br>
 Entwicklung eines Schnittstellenprogramms zur Kommunikation mit den Kompressoren über eine JSON-Web Schnittstelle.
@@ -42,3 +44,5 @@ Entwicklung eines Schnittstellenprogramms zur Kommunikation mit den Kompressoren
 - Verarbeitung, Reduzierung und Normalisierung der eingehenden Daten.
 - Schreiben von Mock-Tests zur Simulation der Kompressordaten und Überprüfung der Schnittstelle.
 - Sicherstellung, dass die Schnittstelle robust und fehlertolerant ist.
+
+Code Review:
