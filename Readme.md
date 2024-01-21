@@ -20,6 +20,7 @@ zwei unterschiedlichen Bereichen.
 - Erweiterbarkeit für weitere Geräte einplanen
   
 ER-Modell Version 1:
+![image](https://github.com/annikazink/LaborGruppe2/assets/146163637/d1276622-6574-4109-9ab6-8059ee2d3825)
 ![image](https://github.com/annikazink/LaborGruppe2/blob/main/ER_Diagramm2.drawio.pdf)
 
 ER-Modell (Version 2) der verwendeten Datenbank:
