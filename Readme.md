@@ -10,7 +10,7 @@ Als Nutzer möchte ich, …<br>
 - auch historische Daten einsehen können. Die Daten sollen zyklisch aufbereitet und gespeichert werden.
 
 ## Modul 1 Datenbank
-Anforderungen: <br>
+#### Anforderungen: <br>
 Entwurf und Implementierung einer relationalen Datenbank zur Speicherung von Daten von zwei Kompressoren in
 zwei unterschiedlichen Bereichen.
 - Erstellung eines ER-Modells.
@@ -24,15 +24,15 @@ zwei unterschiedlichen Bereichen.
 ![image](https://github.com/annikazink/LaborGruppe2/assets/146163637/d1276622-6574-4109-9ab6-8059ee2d3825)
 
 
-### ER-Modell (Version 2) der verwendeten Datenbank:
+#### ER-Modell (Version 2) der verwendeten Datenbank:
 
 ![image](https://github.com/annikazink/LaborGruppe2/assets/146163637/f84ea980-6a49-4c04-9e18-7e9cb9804e10)
 
-<br>
+
 
 
 ## Modul 2 GUI
-Anforderungen:<br>
+#### Anforderungen:<br>
 Entwicklung einer grafischen Benutzeroberfläche (GUI), um die Daten der Kompressoren anzuzeigen und zu verwalten.
 -Entwurf einer benutzerfreundlichen Oberfläche<br>
 -Implementierung der GUI in Python<br>
@@ -49,7 +49,7 @@ Entwicklung einer grafischen Benutzeroberfläche (GUI), um die Daten der Kompres
 
 
 ## Modul 3 Schnittstelle
-Anforderungen:<br>
+#### Anforderungen:<br>
 Entwicklung eines Schnittstellenprogramms zur Kommunikation mit den Kompressoren über eine JSON-Web Schnittstelle.
 - Implementierung einer API in Python, die die Daten von den Kompressoren empfängt und zyklisch an die Datenbank weiterleitet.
 - Verarbeitung, Reduzierung und Normalisierung der eingehenden Daten.
