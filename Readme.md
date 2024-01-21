@@ -25,6 +25,7 @@ ER-Modell Version 1:
 
 ER-Modell (Version 2) der verwendeten Datenbank:
 ![image](https://github.com/annikazink/LaborGruppe2/assets/146918028/e29cd336-864f-47c9-9820-9f6224623b1f)
+![image](https://github.com/annikazink/LaborGruppe2/assets/146163637/f84ea980-6a49-4c04-9e18-7e9cb9804e10)
 
 
 ## Modul 2 GUI
