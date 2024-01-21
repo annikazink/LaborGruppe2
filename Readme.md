@@ -24,11 +24,11 @@ zwei unterschiedlichen Bereichen.
 ![image](https://github.com/annikazink/LaborGruppe2/assets/146163637/d1276622-6574-4109-9ab6-8059ee2d3825)
 
 
-ER-Modell (Version 2) der verwendeten Datenbank:
+### ER-Modell (Version 2) der verwendeten Datenbank:
 
 ![image](https://github.com/annikazink/LaborGruppe2/assets/146163637/f84ea980-6a49-4c04-9e18-7e9cb9804e10)
 
-
+<br>
 
 
 ## Modul 2 GUI
