@@ -1,13 +1,13 @@
 # ReadME LaborGruppe2
 
 ## Namen Übersetzung
-daze1610 - David Zeiser 70481999
-jelleneumann - Jelle Neumann 70482166
-mxmkzk - Maxim Kozik 70481254
-H4uMichBl4u - Hannes Kamann 70481032
-annikazink - Annika Zink 70480872
-martenweiser - Marten Weiser 70482937
-bendokat123 - Constantin Bendokat 70475310
+daze1610 - David Zeiser 70481999 <br>
+jelleneumann - Jelle Neumann 70482166 <br>
+mxmkzk - Maxim Kozik 70481254 <br>
+H4uMichBl4u - Hannes Kamann 70481032 <br>
+annikazink - Annika Zink 70480872 <br>
+martenweiser - Marten Weiser 70482937 <br>
+bendokat123 - Constantin Bendokat 70475310 <br>
 
 ## User-Stories (Programmanforderungen)
 Als Nutzer möchte ich, …<br>
@@ -19,6 +19,7 @@ Als Nutzer möchte ich, …<br>
 - auch historische Daten einsehen können. Die Daten sollen zyklisch aufbereitet und gespeichert werden.
 
 ## Modul 1 Datenbank
+Jelle Neumann und David Zeiser<br>
 #### Anforderungen: <br>
 Entwurf und Implementierung einer relationalen Datenbank zur Speicherung von Daten von zwei Kompressoren in
 zwei unterschiedlichen Bereichen.
@@ -41,6 +42,7 @@ zwei unterschiedlichen Bereichen.
 
 
 ## Modul 2 GUI
+Annika Zink, Marten Weiser und Constantin Bendokat<br>
 #### Anforderungen:<br>
 Entwicklung einer grafischen Benutzeroberfläche (GUI), um die Daten der Kompressoren anzuzeigen und zu verwalten.
 -Entwurf einer benutzerfreundlichen Oberfläche<br>
@@ -59,6 +61,7 @@ Entwicklung einer grafischen Benutzeroberfläche (GUI), um die Daten der Kompres
 
 
 ## Modul 3 Schnittstelle
+Hannes Kamann und Maxim Kozik<br>
 #### Anforderungen:<br>
 Entwicklung eines Schnittstellenprogramms zur Kommunikation mit den Kompressoren über eine JSON-Web Schnittstelle.
 - Implementierung einer API in Python, die die Daten von den Kompressoren empfängt und zyklisch an die Datenbank weiterleitet.
