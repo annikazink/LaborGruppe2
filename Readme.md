@@ -1,5 +1,14 @@
 # ReadME LaborGruppe2
 
+## Namen Übersetzung
+daze1610 - David Zeiser 70481999
+jelleneumann - Jelle Neumann 70482166
+mxmkzk - Maxim Kozik 70481254
+H4uMichBl4u - Hannes Kamann 70481032
+annikazink - Annika Zink 70480872
+martenweiser - Marten Weiser 70482937
+bendokat123 - Constantin Bendokat 70475310
+
 ## User-Stories (Programmanforderungen)
 Als Nutzer möchte ich, …<br>
 - eine Bereichsauswahl in der GUI haben, um die angeschlossenen Geräte und deren Sensoren einzusehen.
