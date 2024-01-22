@@ -41,13 +41,13 @@ Entwicklung einer grafischen Benutzeroberfläche (GUI), um die Daten der Kompres
 -Automatisiertes Testen der Aufbereitungsfunktion; Manuelles Testen der GUI<br>
 
 ### CODE Review:
-![image](https://github.com/annikazink/LaborGruppe2/assets/146163637/9b7c9b53-00b6-404a-9e68-597a689ab43c)
+
+![image](https://github.com/annikazink/LaborGruppe2/assets/146163260/e7c7781e-d52d-44d0-8be6-95a42a550651)
 
 ![image](https://github.com/annikazink/LaborGruppe2/assets/146163637/9ba3a13a-1309-4995-a843-1abf2051eda8)
 
 ![image](https://github.com/annikazink/LaborGruppe2/assets/146163637/a77237c7-f73c-4a4c-8425-a6b9c9bb7a04)
 
-![image](https://github.com/annikazink/LaborGruppe2/assets/146163260/e7c7781e-d52d-44d0-8be6-95a42a550651)
 
 ## Modul 3 Schnittstelle
 #### Anforderungen:<br>
