@@ -1,7 +1,7 @@
 """
 Aufbereitung der Daten von Kompressoren in einer GUI
 
-Author: A. Zink, M. Weiser, C.
+Author: A. Zink, M. Weiser, C. Bendokat
 Last modified: 18.12.23
 """
 import tkinter as tk
