@@ -1,5 +1,8 @@
 # ReadME LaborGruppe2
 
+## Vorwort
+Für die Bewertung des Codes sind die einzelnen Branches entscheidend, da sich in ihnen sowohl der Code, als auch die Tests befinden. Die Main bildet lediglich den Produktivcode nochmal sauber ab, entscheidend ist hier jedoch nur die ReadMe Datei.
+
 ## Namen Übersetzung
 daze1610 - David Zeiser 70481999 <br>
 jelleneumann - Jelle Neumann 70482166 <br>
