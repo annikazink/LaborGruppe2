@@ -47,6 +47,7 @@ Entwicklung einer grafischen Benutzeroberfläche (GUI), um die Daten der Kompres
 
 ![image](https://github.com/annikazink/LaborGruppe2/assets/146163637/a77237c7-f73c-4a4c-8425-a6b9c9bb7a04)
 
+![image](https://github.com/annikazink/LaborGruppe2/assets/146163260/e7c7781e-d52d-44d0-8be6-95a42a550651)
 
 ## Modul 3 Schnittstelle
 #### Anforderungen:<br>
