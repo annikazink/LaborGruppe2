@@ -1,7 +1,0 @@
-Entwicklung eines Schnittstellenprogramms zur Kommunikation mit den Kompressoren über eine JSON-WebSchnittstelle.
-
-Anforderungen:
-- Implementierung einer API in Python, die die Daten von den Kompressoren empfängt und zyklisch an die Datenbank weiterleitet.
-- Verarbeitung, Reduzierung und Normalisierung der eingehenden Daten.
-- Schreiben von Mock-Tests zur Simulation der Kompressordaten und Überprüfung der Schnittstelle.
-- Sicherstellung, dass die Schnittstelle robust und fehlertolerant ist.
